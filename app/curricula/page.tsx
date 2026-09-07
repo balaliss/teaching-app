@@ -48,7 +48,7 @@ export default async function CurriculaPage() {
       ) : (
         <Card>
           <table className="w-full text-sm">
-            <thead className="text-left text-neutral-500">
+            <thead className="text-left text-muted">
               <tr>
                 <th className="py-1">Title</th>
                 <th className="py-1">Grade band</th>
@@ -58,7 +58,7 @@ export default async function CurriculaPage() {
             </thead>
             <tbody>
               {curricula.map((curriculum) => (
-                <tr key={curriculum.id} className="border-t border-neutral-200">
+                <tr key={curriculum.id} className="border-t border-border">
                   <td className="py-2">
                     <Link
                       href={`/curricula/${curriculum.id}`}
@@ -66,7 +66,7 @@ export default async function CurriculaPage() {
                     >
                       {curriculum.title}
                     </Link>
-                    <div className="text-xs text-neutral-500">{curriculum.sourceFileName}</div>
+                    <div className="text-xs text-muted">{curriculum.sourceFileName}</div>
                   </td>
                   <td className="py-2">{curriculum.gradeBand ?? '—'}</td>
                   <td className="py-2">{curriculum._count.modules}</td>

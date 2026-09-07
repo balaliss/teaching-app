@@ -43,14 +43,14 @@ export default async function PrintPage({
         <Link href={`/lessons/${lesson.id}`} className="text-accent underline">
           Back to the editable grid
         </Link>
-        <span className="text-neutral-500">
+        <span className="text-muted">
           Printing {grids.length} page{grids.length === 1 ? '' : 's'} — one per level. Choose
           landscape in the print dialog.
         </span>
       </div>
 
       {grids.length === 0 ? (
-        <p className="text-sm text-neutral-600">
+        <p className="text-sm text-muted">
           Nothing to print yet. Generate a grid on the{' '}
           <Link href={`/lessons/${lesson.id}`} className="text-accent underline">
             lesson page
@@ -70,7 +70,7 @@ export default async function PrintPage({
                   {lesson.number ? `Lesson ${lesson.number}: ` : ''}
                   {lesson.title}
                 </h1>
-                <p className="text-xs text-neutral-600">
+                <p className="text-xs text-muted">
                   {[
                     lesson.module.curriculum.title,
                     lesson.module.number
@@ -83,27 +83,27 @@ export default async function PrintPage({
                     .join(' · ')}
                 </p>
                 {lesson.module.focusingQuestion ? (
-                  <p className="mt-0.5 text-xs italic text-neutral-600">
+                  <p className="mt-0.5 text-xs italic text-muted">
                     Focusing Question: {lesson.module.focusingQuestion}
                   </p>
                 ) : null}
               </div>
               <div className="text-right">
                 <p className="text-sm font-semibold">{grid.level.name}</p>
-                <p className="text-[10px] text-neutral-500">{template.name}</p>
+                <p className="text-[10px] text-muted">{template.name}</p>
               </div>
             </header>
 
             <table className="w-full border-collapse text-[10px]">
               <thead>
                 <tr>
-                  <th className="w-20 border border-neutral-500 bg-neutral-100 p-1 text-left">
+                  <th className="w-20 border border-border bg-surface-muted p-1 text-left">
                     Phase
                   </th>
                   {shape.columns.map((column) => (
                     <th
                       key={column.key}
-                      className="border border-neutral-500 bg-neutral-100 p-1 text-left"
+                      className="border border-border bg-surface-muted p-1 text-left"
                     >
                       {column.label}
                     </th>
@@ -113,13 +113,13 @@ export default async function PrintPage({
               <tbody>
                 {shape.rows.map((row) => (
                   <tr key={row.key}>
-                    <th className="border border-neutral-500 bg-neutral-50 p-1 text-left align-top font-semibold">
+                    <th className="border border-border bg-surface-muted p-1 text-left align-top font-semibold">
                       {row.label}
                     </th>
                     {shape.columns.map((column) => (
                       <td
                         key={column.key}
-                        className="whitespace-pre-wrap border border-neutral-500 p-1 align-top leading-snug"
+                        className="whitespace-pre-wrap border border-border p-1 align-top leading-snug"
                       >
                         {cells.get(`${row.key}/${column.key}`)?.content ?? ''}
                       </td>

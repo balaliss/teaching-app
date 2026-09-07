@@ -82,14 +82,14 @@ export default async function CurriculumPage({ params }: { params: Promise<{ id:
           {[...weeks.entries()].map(([label, lessons]) => (
             <Card key={label}>
               <h2 className="font-medium">{label}</h2>
-              <ul className="mt-2 divide-y divide-neutral-200 text-sm">
+              <ul className="mt-2 divide-y divide-border text-sm">
                 {lessons.map((lesson) => (
                   <li key={lesson.id} className="flex items-center justify-between py-1.5">
                     <Link href={`/lessons/${lesson.id}`} className="text-accent hover:underline">
                       {lesson.number ? `Lesson ${lesson.number}: ` : ''}
                       {lesson.title}
                     </Link>
-                    <span className="text-xs text-neutral-500">
+                    <span className="text-xs text-muted">
                       {lesson._count.grids > 0 ? `${lesson._count.grids} grid(s)` : 'not generated'}
                     </span>
                   </li>

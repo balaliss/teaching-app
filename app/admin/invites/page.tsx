@@ -26,10 +26,10 @@ export default async function InvitesPage() {
       <Card>
         <h2 className="mb-3 font-medium">Recent invites</h2>
         {invites.length === 0 ? (
-          <p className="text-sm text-neutral-600">No invites issued yet.</p>
+          <p className="text-sm text-muted">No invites issued yet.</p>
         ) : (
           <table className="w-full text-sm">
-            <thead className="text-left text-neutral-500">
+            <thead className="text-left text-muted">
               <tr>
                 <th className="py-1">Code</th>
                 <th className="py-1">For</th>
@@ -40,9 +40,9 @@ export default async function InvitesPage() {
             </thead>
             <tbody>
               {invites.map((invite) => (
-                <tr key={invite.id} className="border-t border-neutral-200">
+                <tr key={invite.id} className="border-t border-border">
                   <td className="py-1 font-mono text-xs">{invite.code}</td>
-                  <td className="py-1">{invite.email ?? <span className="text-neutral-400">anyone</span>}</td>
+                  <td className="py-1">{invite.email ?? <span className="text-muted">anyone</span>}</td>
                   <td className="py-1">{invite.role}</td>
                   <td className="py-1">{invite.expiresAt.toISOString().slice(0, 10)}</td>
                   <td className="py-1">

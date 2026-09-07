@@ -54,7 +54,7 @@ export function UploadForm() {
           />
         </Field>
       </div>
-      <p className="text-xs text-neutral-500">
+      <p className="text-xs text-muted">
         Teacher Editions are licensed material. Uploads are private to your account and are never
         shared with other teachers; lesson text is sent to the Claude API when you generate a grid.
       </p>

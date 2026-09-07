@@ -4,11 +4,32 @@
 
 :root {
   color-scheme: light;
+  --color-ink: #2a2730;
+  --color-muted: #756f7c;
+  --color-paper: #f7f5f1;
+  --color-surface: #ffffff;
+  --color-surface-muted: #efeae3;
+  --color-border: #e3ddd3;
+  --color-accent: #6f5cf0;
+  --color-accent-strong: #5a48d9;
+}
+
+.dark {
+  color-scheme: dark;
+  --color-ink: #ece9f2;
+  --color-muted: #9a94a8;
+  --color-paper: #17151b;
+  --color-surface: #221f28;
+  --color-surface-muted: #2b2833;
+  --color-border: #3a3642;
+  --color-accent: #7c6cf5;
+  --color-accent-strong: #9384fa;
 }
 
 body {
   background: theme('colors.paper');
   color: theme('colors.ink');
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 /* Print: the grid is the deliverable. One lesson per landscape page. */

@@ -42,7 +42,7 @@ export default async function HomePage() {
         <Card>
           <h2 className="font-medium">Your curricula</h2>
           {curricula.length === 0 ? (
-            <p className="mt-2 text-sm text-neutral-600">
+            <p className="mt-2 text-sm text-muted">
               Nothing uploaded yet.{' '}
               <Link href="/curricula" className="text-accent hover:underline">
                 Upload one
@@ -56,7 +56,7 @@ export default async function HomePage() {
                   <Link href={`/curricula/${curriculum.id}`} className="text-accent hover:underline">
                     {curriculum.title}
                   </Link>
-                  <span className="ml-2 text-xs text-neutral-500">{curriculum.parseStatus}</span>
+                  <span className="ml-2 text-xs text-muted">{curriculum.parseStatus}</span>
                 </li>
               ))}
             </ul>
@@ -66,7 +66,7 @@ export default async function HomePage() {
         <Card>
           <h2 className="font-medium">Recent grids</h2>
           {recentGrids.length === 0 ? (
-            <p className="mt-2 text-sm text-neutral-600">No grids generated yet.</p>
+            <p className="mt-2 text-sm text-muted">No grids generated yet.</p>
           ) : (
             <ul className="mt-2 space-y-1 text-sm">
               {recentGrids.map((grid) => (
@@ -75,7 +75,7 @@ export default async function HomePage() {
                     {grid.lesson.weekLabel ? `${grid.lesson.weekLabel} · ` : ''}
                     {grid.lesson.title}
                   </Link>
-                  <span className="ml-2 text-xs text-neutral-500">{grid.level.name}</span>
+                  <span className="ml-2 text-xs text-muted">{grid.level.name}</span>
                 </li>
               ))}
             </ul>
@@ -85,18 +85,18 @@ export default async function HomePage() {
         <Card>
           <h2 className="font-medium">This month&apos;s generation limit</h2>
           {quota.cap === null ? (
-            <p className="mt-2 text-sm text-neutral-600">
+            <p className="mt-2 text-sm text-muted">
               No limit set. {quota.used.toLocaleString()} tokens used so far.
             </p>
           ) : (
             <>
-              <div className="mt-3 h-2 w-full overflow-hidden rounded bg-neutral-200">
+              <div className="mt-3 h-2 w-full overflow-hidden rounded bg-surface-muted">
                 <div
                   className="h-full bg-accent"
                   style={{ width: `${Math.min(100, (quota.used / quota.cap) * 100)}%` }}
                 />
               </div>
-              <p className="mt-2 text-sm text-neutral-600">
+              <p className="mt-2 text-sm text-muted">
                 {quota.used.toLocaleString()} of {quota.cap.toLocaleString()} tokens used.
               </p>
             </>

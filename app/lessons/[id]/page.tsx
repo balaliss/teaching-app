@@ -47,7 +47,7 @@ export default async function LessonPage({ params }: { params: Promise<{ id: str
       </PageHeading>
 
       {lesson.module.focusingQuestion ? (
-        <p className="text-sm text-neutral-700">
+        <p className="text-sm text-muted">
           <span className="font-medium">Focusing Question:</span>{' '}
           {lesson.module.focusingQuestion}
         </p>
@@ -92,14 +92,14 @@ export default async function LessonPage({ params }: { params: Promise<{ id: str
         />
       )}
 
-      <details className="rounded border border-neutral-300 bg-white p-4 text-sm">
+      <details className="rounded border border-border bg-surface p-4 text-sm">
         <summary className="cursor-pointer font-medium">
           Teacher Edition text used for this lesson ({lesson.sections.length} phase
           {lesson.sections.length === 1 ? '' : 's'})
         </summary>
         <div className="mt-3 space-y-3">
           {lesson.sections.length === 0 ? (
-            <p className="text-neutral-600">
+            <p className="text-muted">
               No source text captured. Add it on the{' '}
               <Link
                 href={`/curricula/${lesson.module.curriculumId}/review`}
@@ -115,7 +115,7 @@ export default async function LessonPage({ params }: { params: Promise<{ id: str
                 <p className="font-medium">
                   {section.phase} — {section.heading}
                 </p>
-                <pre className="mt-1 max-h-48 overflow-auto whitespace-pre-wrap rounded bg-neutral-50 p-2 font-mono text-xs">
+                <pre className="mt-1 max-h-48 overflow-auto whitespace-pre-wrap rounded bg-surface-muted p-2 font-mono text-xs">
                   {section.rawText}
                 </pre>
               </div>

@@ -112,7 +112,7 @@ export function LevelsEditor({
               />
             </label>
             {level.id ? null : (
-              <p className="mt-1 text-xs text-neutral-500">New — no grids generated yet.</p>
+              <p className="mt-1 text-xs text-muted">New — no grids generated yet.</p>
             )}
           </Card>
         ),
@@ -140,7 +140,7 @@ export function LevelsEditor({
           Use WIDA (6 levels)
         </Button>
       </div>
-      <p className="text-xs text-neutral-500">
+      <p className="text-xs text-muted">
         Removing a level also removes the grids generated for it. Presets replace the current list —
         nothing is deleted until you save.
       </p>

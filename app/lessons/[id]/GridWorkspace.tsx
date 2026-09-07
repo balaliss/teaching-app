@@ -95,7 +95,7 @@ export function GridWorkspace({
     <div className="space-y-4">
       <div
         data-testid="level-tabs"
-        className="no-print flex flex-wrap items-center gap-2 border-b border-neutral-300"
+        className="no-print flex flex-wrap items-center gap-2 border-b border-border"
       >
         {levels.map((level) => {
           const levelGrid = grids.find((g) => g.levelId === level.id);
@@ -108,11 +108,11 @@ export function GridWorkspace({
               className={`-mb-px border-b-2 px-3 py-2 text-sm font-medium ${
                 isActive
                   ? "border-accent text-accent"
-                  : "border-transparent text-neutral-600 hover:text-ink"
+                  : "border-transparent text-muted hover:text-ink"
               }`}
             >
               {level.name}
-              <span className="ml-2 text-xs font-normal text-neutral-400">
+              <span className="ml-2 text-xs font-normal text-muted">
                 {levelGrid?.status === "READY"
                   ? "✓"
                   : levelGrid?.status === "FAILED"
@@ -152,7 +152,7 @@ export function GridWorkspace({
         >
           Generate all {levels.length} levels
         </Button>
-        <span className="text-xs text-neutral-500">
+        <span className="text-xs text-muted">
           Layout: {templateName} ·{" "}
           <Link href="/settings/templates" className="underline">
             change rows and columns
@@ -161,7 +161,7 @@ export function GridWorkspace({
       </div>
 
       {activeLevel?.description ? (
-        <p className="text-xs text-neutral-600">{activeLevel.description}</p>
+        <p className="text-xs text-muted">{activeLevel.description}</p>
       ) : null}
 
       {grid?.status === "FAILED" ? (
@@ -169,7 +169,7 @@ export function GridWorkspace({
       ) : null}
 
       {!grid || grid.cells.length === 0 ? (
-        <p className="rounded border border-dashed border-neutral-400 bg-white px-3 py-2 text-sm text-neutral-600">
+        <p className="rounded border border-dashed border-border bg-surface px-3 py-2 text-sm text-muted">
           No grid for {activeLevel?.name} yet — this is the empty layout.
           Generate above to fill it.
         </p>
@@ -179,13 +179,13 @@ export function GridWorkspace({
         <table className="w-full min-w-[64rem] border-collapse text-sm">
           <thead>
             <tr>
-              <th className="w-28 border border-neutral-400 bg-neutral-100 p-2 text-left align-bottom">
+              <th className="w-28 border border-border bg-surface-muted p-2 text-left align-bottom">
                 Phase
               </th>
               {shape.columns.map((column) => (
                 <th
                   key={column.key}
-                  className="border border-neutral-400 bg-neutral-100 p-2 text-left align-bottom"
+                  className="border border-border bg-surface-muted p-2 text-left align-bottom"
                 >
                   {column.label}
                 </th>
@@ -195,13 +195,13 @@ export function GridWorkspace({
           <tbody>
             {shape.rows.map((row) => (
               <tr key={row.key}>
-                <th className="border border-neutral-400 bg-neutral-50 p-2 text-left align-top font-medium">
+                <th className="border border-border bg-surface-muted p-2 text-left align-top font-medium">
                   {row.label}
                 </th>
                 {shape.columns.map((column) => (
                   <td
                     key={column.key}
-                    className="border border-neutral-400 p-0 align-top"
+                    className="border border-border p-0 align-top"
                   >
                     <EditableCell
                       gridId={grid?.id ?? null}
@@ -220,7 +220,7 @@ export function GridWorkspace({
       </div>
 
       {grid?.generatedAt ? (
-        <p className="no-print text-xs text-neutral-500">
+        <p className="no-print text-xs text-muted">
           Generated {new Date(grid.generatedAt).toLocaleString()}
           {grid.model ? ` · ${grid.model}` : ""} · cells you edit are marked and
           are kept when you regenerate.
@@ -314,12 +314,12 @@ function EditableCell({
   return (
     <div className="group relative p-2">
       {cell?.teacherEdited ? (
-        <span className="no-print absolute right-1 top-1 rounded bg-amber-100 px-1 text-[10px] font-medium text-amber-800">
+        <span className="no-print absolute right-1 top-1 rounded bg-amber-100 px-1 text-[10px] font-medium text-amber-800 dark:bg-amber-950 dark:text-amber-300">
           edited
         </span>
       ) : null}
       <div className="whitespace-pre-wrap text-xs leading-relaxed">
-        {cell?.content || <span className="text-neutral-400">—</span>}
+        {cell?.content || <span className="text-muted">—</span>}
       </div>
       <div className="no-print mt-1 flex gap-2 opacity-0 transition group-hover:opacity-100">
         {gridId ? (
@@ -335,7 +335,7 @@ function EditableCell({
           <button
             type="button"
             onClick={revert}
-            className="text-[11px] text-neutral-500 underline"
+            className="text-[11px] text-muted underline"
           >
             Let Claude rewrite
           </button>

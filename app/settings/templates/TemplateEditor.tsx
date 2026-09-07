@@ -136,7 +136,7 @@ export function TemplateEditor({
           />
         </label>
         {usingShared ? (
-          <p className="mt-2 text-xs text-neutral-500">
+          <p className="mt-2 text-xs text-muted">
             You are currently using the shared default. Saving creates your own copy.
           </p>
         ) : null}
@@ -204,11 +204,11 @@ function AxisEditor({
   return (
     <Card testId={testId}>
       <h2 className="font-medium">{title}</h2>
-      <p className="mt-0.5 text-xs text-neutral-500">{description}</p>
+      <p className="mt-0.5 text-xs text-muted">{description}</p>
 
       <div className="mt-3 space-y-3">
         {items.map((item, index) => (
-          <div key={`${title}-${index}`} className="rounded border border-neutral-300 p-3">
+          <div key={`${title}-${index}`} className="rounded border border-border p-3">
             <div className="flex flex-wrap items-end gap-3">
               <label className="min-w-48 flex-1 text-sm">
                 <span className="font-medium">Label</span>

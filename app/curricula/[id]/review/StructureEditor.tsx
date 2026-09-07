@@ -152,7 +152,7 @@ export function StructureEditor({
         <Button variant="secondary" onClick={() => setModules((c) => [...c, emptyModule()])}>
           Add module
         </Button>
-        <span className="text-xs text-neutral-500">
+        <span className="text-xs text-muted">
           {visibleModules.length} module(s) ·{' '}
           {visibleModules.reduce(
             (sum, m) => sum + m.lessons.filter((l) => !l.deleted).length,
@@ -216,13 +216,13 @@ export function StructureEditor({
                 lesson.deleted ? null : (
                   <details
                     key={lesson.id ?? `l-${mi}-${li}`}
-                    className="rounded border border-neutral-300 bg-neutral-50 p-3"
+                    className="rounded border border-border bg-surface-muted p-3"
                   >
                     <summary className="cursor-pointer text-sm font-medium">
                       {lesson.weekLabel ? `${lesson.weekLabel} · ` : ''}
                       {lesson.number ? `Lesson ${lesson.number}: ` : ''}
                       {lesson.title}
-                      <span className="ml-2 text-xs font-normal text-neutral-500">
+                      <span className="ml-2 text-xs font-normal text-muted">
                         {lesson.sections.filter((s) => !s.deleted).length} phase(s)
                       </span>
                     </summary>
@@ -273,7 +273,7 @@ export function StructureEditor({
                         section.deleted ? null : (
                           <div
                             key={section.id ?? `s-${mi}-${li}-${si}`}
-                            className="rounded border border-neutral-300 bg-white p-3"
+                            className="rounded border border-border bg-surface p-3"
                           >
                             <div className="flex flex-wrap items-end gap-3">
                               <label className="text-sm">

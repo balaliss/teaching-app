@@ -54,7 +54,7 @@ export default async function LevelsPage({
               className={`rounded border px-3 py-1.5 text-sm ${
                 curriculum.id === selectedId
                   ? 'border-accent bg-accent text-white'
-                  : 'border-neutral-400 bg-white hover:bg-neutral-50'
+                  : 'border-border bg-surface hover:bg-surface-muted'
               }`}
             >
               {curriculum.title}
