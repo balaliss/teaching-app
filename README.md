@@ -42,7 +42,10 @@ when the layout changes; regenerate a lesson to fill any new rows or columns.
 
 ## Running it locally
 
-Requires Node 22+ and Postgres 16.
+**New here? Read [docs/TESTING.md](docs/TESTING.md)** — a step-by-step walkthrough of setup
+and what to check, written for someone who has not touched the code.
+
+The short version. Requires Node 22+ and Postgres 16.
 
 ```bash
 cp .env.example .env          # then edit: AUTH_SECRET, SEED_ADMIN_*, ANTHROPIC_API_KEY

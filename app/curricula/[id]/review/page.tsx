@@ -1,7 +1,7 @@
 import { prisma } from '@/lib/db'
 import { requireUser } from '@/lib/session'
 import { ownedCurriculum } from '@/lib/access'
-import { PageHeading } from '@/components/ui'
+import { LinkButton, PageHeading } from '@/components/ui'
 import { StructureEditor } from '@/app/curricula/[id]/review/StructureEditor'
 
 export default async function ReviewPage({ params }: { params: Promise<{ id: string }> }) {
@@ -25,7 +25,11 @@ export default async function ReviewPage({ params }: { params: Promise<{ id: str
       <PageHeading
         title="Structure"
         subtitle={`${curriculum.title} — confirm what the parser found. Teacher Edition layouts vary, so fix anything it got wrong here; the phase text below is what Claude reads when it writes the grid.`}
-      />
+      >
+        <LinkButton href={`/curricula/${curriculum.id}`} variant="primary">
+          Done — go to lessons
+        </LinkButton>
+      </PageHeading>
 
       <StructureEditor
         curriculumId={curriculum.id}
