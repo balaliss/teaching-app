@@ -1,0 +1,238 @@
+// Teaching App — Wit & Wisdom ELD lesson instruction grid
+// Host-agnostic: only DATABASE_URL is required.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  TEACHER
+  ADMIN
+}
+
+enum ParseStatus {
+  PENDING
+  PARSING
+  NEEDS_REVIEW
+  READY
+  FAILED
+}
+
+enum Phase {
+  WELCOME
+  LAUNCH
+  LEARN
+  LAND
+  WRAP
+  OTHER
+}
+
+enum GridStatus {
+  PENDING
+  GENERATING
+  READY
+  FAILED
+}
+
+model User {
+  id              String   @id @default(cuid())
+  email           String   @unique
+  name            String?
+  passwordHash    String
+  role            Role     @default(TEACHER)
+  /// Monthly cap on total (input + output) tokens. 0 means blocked, null means unlimited.
+  monthlyTokenCap Int?     @default(2000000)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  curricula     Curriculum[]
+  templates     GridTemplate[]
+  usageEvents   UsageEvent[]
+  invitesIssued Invite[]       @relation("InviteIssuer")
+  inviteUsed    Invite?        @relation("InviteRedeemer")
+}
+
+model Invite {
+  id           String    @id @default(cuid())
+  code         String    @unique
+  email        String?
+  role         Role      @default(TEACHER)
+  expiresAt    DateTime
+  createdAt    DateTime  @default(now())
+  usedAt       DateTime?
+
+  issuedById String
+  issuedBy   User   @relation("InviteIssuer", fields: [issuedById], references: [id], onDelete: Cascade)
+
+  usedByUserId String? @unique
+  usedByUser   User?   @relation("InviteRedeemer", fields: [usedByUserId], references: [id], onDelete: SetNull)
+
+  @@index([issuedById])
+}
+
+/// One uploaded curriculum document (a W&W ELD Teacher Edition, pacing guide, etc.).
+model Curriculum {
+  id             String      @id @default(cuid())
+  title          String
+  gradeBand      String?
+  sourceFileKey  String
+  sourceFileName String
+  sourceMimeType String
+  parseStatus    ParseStatus @default(PENDING)
+  parseError     String?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  ownerId String
+  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  modules Module[]
+  levels  ProficiencyLevel[]
+
+  @@index([ownerId])
+}
+
+/// Language-proficiency bands. Names are teacher-configurable (CA ELD, WIDA, district-specific).
+model ProficiencyLevel {
+  id          String  @id @default(cuid())
+  name        String
+  description String?
+  order       Int
+
+  curriculumId String
+  curriculum   Curriculum @relation(fields: [curriculumId], references: [id], onDelete: Cascade)
+
+  grids GeneratedGrid[]
+
+  @@unique([curriculumId, order])
+  @@index([curriculumId])
+}
+
+model Module {
+  id              String  @id @default(cuid())
+  number          Int?
+  title           String
+  focusingQuestion String?
+  order           Int
+
+  curriculumId String
+  curriculum   Curriculum @relation(fields: [curriculumId], references: [id], onDelete: Cascade)
+
+  lessons Lesson[]
+
+  @@index([curriculumId])
+}
+
+model Lesson {
+  id        String  @id @default(cuid())
+  number    Int?
+  title     String
+  weekLabel String?
+  pageStart Int?
+  pageEnd   Int?
+  order     Int
+
+  moduleId String
+  module   Module @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+
+  sections LessonSection[]
+  grids    GeneratedGrid[]
+
+  @@index([moduleId])
+}
+
+/// A phase of a lesson with the raw Teacher Edition text that feeds generation.
+model LessonSection {
+  id      String @id @default(cuid())
+  phase   Phase  @default(OTHER)
+  heading String
+  rawText String
+  order   Int
+
+  lessonId String
+  lesson   Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@index([lessonId])
+}
+
+/// The grid shape itself: rows and columns are data, not code, so the layout can be
+/// changed from Settings without a migration. Both are JSON arrays of {key,label,hint}.
+model GridTemplate {
+  id        String   @id @default(cuid())
+  name      String
+  isDefault Boolean  @default(false)
+  rows      Json
+  columns   Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  ownerId String?
+  owner   User?   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  grids GeneratedGrid[]
+
+  @@index([ownerId])
+}
+
+model GeneratedGrid {
+  id          String     @id @default(cuid())
+  status      GridStatus @default(PENDING)
+  model       String?
+  error       String?
+  generatedAt DateTime?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  lessonId String
+  lesson   Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  templateId String
+  template   GridTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+
+  levelId String
+  level   ProficiencyLevel @relation(fields: [levelId], references: [id], onDelete: Cascade)
+
+  cells       GridCell[]
+  usageEvents UsageEvent[]
+
+  @@unique([lessonId, templateId, levelId])
+  @@index([lessonId])
+}
+
+model GridCell {
+  id            String   @id @default(cuid())
+  rowKey        String
+  columnKey     String
+  content       String
+  /// Teacher-authored content: preserved when the grid is regenerated.
+  teacherEdited Boolean  @default(false)
+  updatedAt     DateTime @updatedAt
+
+  gridId String
+  grid   GeneratedGrid @relation(fields: [gridId], references: [id], onDelete: Cascade)
+
+  @@unique([gridId, rowKey, columnKey])
+  @@index([gridId])
+}
+
+model UsageEvent {
+  id           String   @id @default(cuid())
+  kind         String
+  model        String
+  inputTokens  Int
+  outputTokens Int
+  createdAt    DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  gridId String?
+  grid   GeneratedGrid? @relation(fields: [gridId], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt])
+}
