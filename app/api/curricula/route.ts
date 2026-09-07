@@ -49,4 +49,10 @@ export async function POST(request: Request) {
   }
 }
 
-export const maxDuration = 300
+// unpdf, mammoth and exceljs are Node-only, so this must never be pushed to Edge.
+export const runtime = 'nodejs'
+
+// Parsing a full Teacher Edition takes a few seconds; the Claude fallback for an
+// unrecognised layout takes longer. 60 is the ceiling on Vercel Hobby — raise this
+// and the matching value in vercel.json on a plan that allows more.
+export const maxDuration = 60

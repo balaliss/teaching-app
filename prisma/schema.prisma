@@ -1,13 +1,16 @@
 // Teaching App — Wit & Wisdom ELD lesson instruction grid
-// Host-agnostic: only DATABASE_URL is required.
+// Host-agnostic: DATABASE_URL is the only required setting. On a pooled host
+// (Neon, Supabase, PgBouncer) also set DIRECT_URL to the unpooled connection
+// string — migrations cannot run through a transaction pooler.
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 enum Role {

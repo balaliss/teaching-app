@@ -63,7 +63,8 @@ Everything is documented in `.env.example`. The ones that matter:
 
 | Variable | Purpose |
 |---|---|
-| `DATABASE_URL` | The only host-specific setting — local Docker, Neon, Fly, Render all work |
+| `DATABASE_URL` | Local Docker, Neon, Fly, Render all work |
+| `DIRECT_URL` | Unpooled connection string; only needed on a pooled host such as Neon |
 | `AUTH_SECRET` | Session signing key |
 | `ANTHROPIC_API_KEY` | One shared server-side key; never reaches the browser |
 | `CLAUDE_GRID_MODEL` | Model used to write the grids (default `claude-opus-5`) |
@@ -123,7 +124,11 @@ PLAYWRIGHT_CHROMIUM_PATH=/path/to/chrome npm run test:e2e
 
 ## Deploying
 
-`next.config.ts` builds a standalone server, so the same image runs anywhere. Set
-`DATABASE_URL`, `AUTH_SECRET`, `AUTH_URL` and `ANTHROPIC_API_KEY`, run
-`npx prisma migrate deploy`, and switch `STORAGE_DRIVER` to `s3` if the host has no
-persistent disk.
+**Vercel + Neon + Cloudflare R2: see [docs/DEPLOY.md](docs/DEPLOY.md)** for the full
+walkthrough, including the two Neon connection strings, R2 token scopes, the one-time seed
+step, and the function-timeout trap that decides which Claude model to use.
+
+Self-hosting instead: `next.config.ts` builds a standalone server, so the Docker image runs
+anywhere. Set `DATABASE_URL`, `AUTH_SECRET`, `AUTH_URL` and `ANTHROPIC_API_KEY`, run
+`npx prisma migrate deploy && npm run db:seed`, and switch `STORAGE_DRIVER` to `s3` if the
+host has no persistent disk.
