@@ -30,15 +30,46 @@ Skip anything you already have.
 
 Open **Terminal** (Mac) or **PowerShell** (Windows). Paste these one at a time.
 
+> 🛑 **Paste these ONE LINE AT A TIME.** If you paste the whole block, and one command
+> asks you a question, the next lines get swallowed as your answer. That failure looks
+> very confusing.
+
 ### 1️⃣ Get the code
 
+The repo is **private**, so a plain `git clone` will ask for a password and then refuse it —
+GitHub stopped accepting passwords for this in 2021. Pick whichever of these is easier.
+
+**Option A — no installing anything (fastest)**
+
+1. Open <https://github.com/balaliss/teaching-app> in your browser, signed in as yourself.
+2. Green **Code** button → **Download ZIP**.
+3. Unzip it, then drag the folder into Terminal after typing `cd ` (with a space).
+
+> ⚠️ The unzipped folder is called **`teaching-app-main`**, not `teaching-app`. So your
+> `cd` command has the `-main` on the end.
+
+**Option B — GitHub's own tool (better if you'll pull updates later)**
+
 ```bash
-git clone https://github.com/balaliss/teaching-app
+brew install gh
+```
+
+```bash
+gh auth login
+```
+
+Answer: **GitHub.com** → **HTTPS** → **Y** to authenticate git → **Login with a web browser**.
+It shows you a code, opens your browser, you paste the code. Then:
+
+```bash
+gh repo clone balaliss/teaching-app
 ```
 
 ```bash
 cd teaching-app
 ```
+
+> 💡 Don't have `brew`? Use Option A.
 
 ### 2️⃣ Make your settings file
 

@@ -78,7 +78,7 @@ Migrations create the tables but not the starting data. The app needs one admin 
 the default grid layout, so run the seed once from your machine against the Neon database:
 
 ```bash
-git clone https://github.com/balaliss/teaching-app
+gh repo clone balaliss/teaching-app   # the repo is private; see docs/TESTING.md for auth
 cd teaching-app && npm install
 
 DATABASE_URL='<neon direct connection string>' \
