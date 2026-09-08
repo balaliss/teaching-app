@@ -22,7 +22,7 @@
     "@anthropic-ai/sdk": "^0.68.0",
     "@aws-sdk/client-s3": "^3.716.0",
     "@prisma/client": "^6.2.1",
-    "bcryptjs": "^2.4.3",
+    "bcryptjs": "^3.0.3",
     "exceljs": "^4.4.0",
     "mammoth": "^1.9.0",
     "next": "^15.1.6",
@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.49.1",
-    "@types/bcryptjs": "^2.4.6",
+    "@types/bcryptjs": "^3.0.0",
     "@types/node": "^22.10.6",
     "@types/react": "^19.0.7",
     "@types/react-dom": "^19.0.3",
