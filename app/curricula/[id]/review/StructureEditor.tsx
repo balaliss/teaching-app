@@ -122,7 +122,7 @@ export function StructureEditor({
   async function onReparse() {
     if (
       !window.confirm(
-        'This throws away everything below and reads your PDF again from scratch. Any fixes you made here will be lost. Carry on?',
+        'This reads your PDF again from scratch. Any fixes you made here will be lost. Carry on?',
       )
     ) {
       return
@@ -167,8 +167,7 @@ export function StructureEditor({
 
       {visibleModules.length === 0 ? (
         <Alert kind="info">
-          Nothing here yet. Either type your modules and lessons in yourself with “Add module”, or
-          have another go at reading the PDF.
+          Nothing here yet. Type in your modules and lessons, or try reading the PDF again.
         </Alert>
       ) : null}
 

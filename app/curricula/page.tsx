@@ -33,7 +33,7 @@ export default async function CurriculaPage() {
     <div className="space-y-6">
       <PageHeading
         title="My curriculum"
-        subtitle="Add your Wit &amp; Wisdom ELD Teacher Edition here — one per module. Only you can see what you upload."
+        subtitle="Add your Wit &amp; Wisdom ELD Teacher Edition. One per module. Only you can see it."
       />
 
       <Card>
@@ -43,7 +43,7 @@ export default async function CurriculaPage() {
       {curricula.length === 0 ? (
         <EmptyState
           title="Nothing here yet"
-          body="Add your Teacher Edition PDF above. We\u2019ll pull out the modules and lessons, show you what we found so you can fix anything we got wrong, and then you can start making lesson grids."
+          body="Add your Teacher Edition PDF above. We pull out the modules and lessons. You check what we found. Then you can start making grids."
         />
       ) : (
         <Card>

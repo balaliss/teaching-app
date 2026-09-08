@@ -20,8 +20,8 @@ export async function resolveTemplate(userId: string) {
   })
   if (!shared) {
     throw new Error(
-      'This site is missing its starting grid layout, so nothing can be written yet. ' +
-        'Whoever installed it needs to run the setup step (npm run db:seed).',
+      'This site is missing its starting grid. Nothing can be written yet. ' +
+        'Whoever set this up needs to run the setup step (npm run db:seed).',
     )
   }
   return shared

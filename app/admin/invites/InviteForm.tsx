@@ -38,7 +38,7 @@ export function InviteForm() {
       <h2 className="font-medium">Make an invite link</h2>
       {error ? <Alert>{error}</Alert> : null}
       <div className="grid gap-4 sm:grid-cols-3">
-        <Field label="Their email" hint="optional — locks the link to that address">
+        <Field label="Their email" hint="optional — only they can use the link">
           <input name="email" type="email" className={inputClass} placeholder="teacher@school.org" />
         </Field>
         <Field label="Role">

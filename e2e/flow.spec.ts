@@ -78,7 +78,7 @@ test('teacher path: upload, confirm structure, change layout, print', async ({ p
   await columnsCard.getByRole('button', { name: 'Add column' }).click()
   await columnsCard.getByLabel('Label').last().fill(newColumnLabel)
   await page.getByRole('button', { name: 'Save', exact: true }).click()
-  await expect(page.getByText('Saved. Grids you already made')).toBeVisible()
+  await expect(page.getByText('Saved. Old grids stay as they are')).toBeVisible()
 
   await page.goto(`/curricula/${curriculumId}`)
   await page.getByRole('link', { name: /the heart as a pump/ }).click()

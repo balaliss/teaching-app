@@ -24,7 +24,7 @@ export default async function ReviewPage({ params }: { params: Promise<{ id: str
     <div className="space-y-6">
       <PageHeading
         title="Check what we found"
-        subtitle={`${curriculum.title} — here are the modules and lessons we pulled out of your PDF. Teacher Editions are laid out differently from year to year, so fix anything that looks wrong. What you see here is exactly what Claude reads when it writes your grids.`}
+        subtitle={`${curriculum.title} — these are the modules and lessons we found in your PDF. Fix anything that looks wrong. Claude reads exactly what you see here when it writes your grids.`}
       >
         <LinkButton href={`/curricula/${curriculum.id}`} variant="primary">
           Done — go to my lessons

@@ -127,9 +127,9 @@ export function GridWorkspace({
       {error ? <Alert>{error}</Alert> : null}
       {quotaExceeded ? (
         <Alert>
-          You&apos;ve used up this month&apos;s allowance. Grids you already made still
-          work and still print — you just can&apos;t write new ones until someone
-          raises your limit, or next month starts.
+          You have used up this month&apos;s grids. The ones you already made still
+          work, and you can still print them. To write new ones, ask for a bigger
+          limit or wait for next month.
         </Alert>
       ) : null}
 

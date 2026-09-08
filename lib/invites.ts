@@ -25,16 +25,16 @@ export async function redeemInvite(input: {
   const email = input.email.trim().toLowerCase()
 
   const invite = await prisma.invite.findUnique({ where: { code: input.code.trim() } })
-  if (!invite) return { ok: false, error: "That invite code isn't right. Check you copied the whole link." }
-  if (invite.usedAt) return { ok: false, error: 'That invite has already been used to make an account.' }
+  if (!invite) return { ok: false, error: "That code is not right. Check you copied the whole link." }
+  if (invite.usedAt) return { ok: false, error: 'That invite is used up. Ask for a new one.' }
   if (invite.expiresAt < new Date())
-    return { ok: false, error: 'That invite has expired. Ask for a new one.' }
+    return { ok: false, error: 'That invite has run out. Ask for a new one.' }
   if (invite.email && invite.email.toLowerCase() !== email) {
-    return { ok: false, error: 'That invite was sent to a different email address.' }
+    return { ok: false, error: 'That invite is for a different email.' }
   }
 
   const existing = await prisma.user.findUnique({ where: { email } })
-  if (existing) return { ok: false, error: 'There is already an account with that email — try signing in.' }
+  if (existing) return { ok: false, error: 'You already have an account. Try signing in.' }
 
   const passwordHash = await bcrypt.hash(input.password, 12)
 
@@ -64,7 +64,7 @@ export async function redeemInvite(input: {
     return { ok: true, userId: user.id }
   } catch (error) {
     if (error instanceof Error && error.message === 'invite-race') {
-      return { ok: false, error: 'That invite has already been used to make an account.' }
+      return { ok: false, error: 'That invite is used up. Ask for a new one.' }
     }
     throw error
   }

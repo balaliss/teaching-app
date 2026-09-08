@@ -24,7 +24,7 @@ export default async function LevelsPage({
         <PageHeading title="Language levels" />
         <EmptyState
           title="Nothing to set up yet"
-          body="Levels are set per Teacher Edition, so add one of those first."
+          body="You set levels for each Teacher Edition. Add one first."
           action={<LinkButton href="/curricula" variant="primary">Add a Teacher Edition</LinkButton>}
         />
       </div>
@@ -41,7 +41,7 @@ export default async function LevelsPage({
     <div className="space-y-6">
       <PageHeading
         title="Language levels"
-        subtitle="The levels your district uses. Every grid gets written once for each one, so a lesson comes out three times with different amounts of support."
+        subtitle="The levels your school uses. Each lesson gets one grid per level. Same lesson, different amounts of help."
       />
 
       <Card>
@@ -64,9 +64,9 @@ export default async function LevelsPage({
       </Card>
 
       <Alert kind="info">
-        <strong>The description matters.</strong> It&apos;s what Claude reads to decide how much
-        support to build in. Be specific about what these students can already do on their own, and
-        what they still need help with. Vague description in, vague differences out.
+        <strong>The description matters.</strong> Claude reads it to decide how much help to build
+        in. Say what these students can already do alone. Say what they still need help with. Be
+        clear here, or all your levels will read the same.
       </Alert>
 
       <LevelsEditor

@@ -74,7 +74,7 @@ export default async function CurriculumPage({ params }: { params: Promise<{ id:
       {weeks.size === 0 ? (
         <EmptyState
           title="No lessons yet"
-          body="Either we couldn&apos;t find any lessons in your file, or it hasn&apos;t been read yet. You can add them yourself, or have another go at reading the PDF."
+          body="We found no lessons in your file. You can type them in yourself, or try reading the PDF again."
           action={<LinkButton href={`/curricula/${curriculum.id}/review`} variant="primary">Open the lessons page</LinkButton>}
         />
       ) : (

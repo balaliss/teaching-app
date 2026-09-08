@@ -196,7 +196,7 @@ export async function generateGrid(input: {
   }
 
   if (!raw?.grid) {
-    throw new Error('Claude did not return a grid. Try generating again.')
+    throw new Error('Claude did not send back a grid. Please try again.')
   }
 
   const cells: GeneratedCell[] = []

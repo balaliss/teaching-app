@@ -16,14 +16,14 @@ export default async function TemplatesPage() {
     <div className="space-y-6">
       <PageHeading
         title="My grid"
-        subtitle="This is what your printed grid looks like: the rows down the side, the columns across the top. Change anything here and the next grid you make uses the new shape."
+        subtitle="This is the shape of your printed grid. Rows go down the side. Columns go across the top. Change them here and your next grid uses the new shape."
       />
 
       <Alert kind="info">
         Rows are the parts of the lesson. Columns are what you want spelled out for each part.
         <br />
-        The <strong>hint</strong> box on each one is what Claude reads to decide what goes in that
-        square — so if a column keeps coming out wrong, change its hint.
+        Claude reads the <strong>hint</strong> box to decide what goes in each square. If a column
+        keeps coming out wrong, change its hint.
       </Alert>
 
       <TemplateEditor

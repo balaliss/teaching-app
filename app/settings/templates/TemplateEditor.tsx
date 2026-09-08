@@ -108,7 +108,7 @@ export function TemplateEditor({
     }
     setMessage({
       kind: 'success',
-      text: 'Saved. Grids you already made stay as they are — write a lesson again to fill in anything new.',
+      text: 'Saved. Old grids stay as they are. Write a lesson again to fill in the new bits.',
     })
     router.refresh()
   }
@@ -137,8 +137,8 @@ export function TemplateEditor({
         </label>
         {usingShared ? (
           <p className="mt-2 text-xs text-neutral-500">
-            You&apos;re using the standard grid everyone starts with. Saving makes your own copy —
-            it won&apos;t change anyone else&apos;s.
+            This is the grid everyone starts with. When you save, you get your own copy. Nobody
+            else is affected.
           </p>
         ) : null}
       </Card>
@@ -158,7 +158,7 @@ export function TemplateEditor({
       <AxisEditor
         testId="axis-columns"
         title="Columns (across the top)"
-        description="One column for each thing you want spelled out for every part of the lesson."
+        description="One column for each thing you want spelled out."
         items={shape.columns}
         onLabel={(index, label) => patchLabel('columns', index, label)}
         onPatch={(index, next) => patch('columns', index, next)}

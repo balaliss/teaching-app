@@ -112,7 +112,7 @@ export function LevelsEditor({
               />
             </label>
             {level.id ? null : (
-              <p className="mt-1 text-xs text-neutral-500">New — nothing written for this level yet.</p>
+              <p className="mt-1 text-xs text-neutral-500">New — no grids yet.</p>
             )}
           </Card>
         ),
@@ -141,8 +141,8 @@ export function LevelsEditor({
         </Button>
       </div>
       <p className="text-xs text-neutral-500">
-        Deleting a level also deletes any grids written for it. The two buttons above swap in a
-        ready-made set of levels. Nothing actually changes until you press Save.
+        Delete a level and its grids go too. The buttons above fill in a ready-made set. Nothing
+        changes until you press Save.
       </p>
     </div>
   )

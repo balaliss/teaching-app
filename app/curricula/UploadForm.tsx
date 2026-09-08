@@ -55,8 +55,8 @@ export function UploadForm() {
         </Field>
       </div>
       <p className="text-xs text-neutral-500">
-        Your Teacher Edition stays private to you — other teachers on this site cannot see it. When
-        you make a grid, the lesson text is sent to Claude to be written up.
+        Only you can see your Teacher Edition. Other teachers cannot. When you make a grid, we send
+        the lesson text to Claude.
       </p>
       <Button type="submit" disabled={pending}>
         {pending ? 'Reading your PDF…' : 'Upload it'}

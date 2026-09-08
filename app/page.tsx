@@ -31,7 +31,7 @@ export default async function HomePage() {
     <div className="space-y-6">
       <PageHeading
         title={`Hello${user.name ? `, ${user.name.split(' ')[0]}` : ''}`}
-        subtitle="Add your Teacher Edition, pick the lesson you&apos;re teaching, and print the grid."
+        subtitle="Add your Teacher Edition. Pick a lesson. Print the grid."
       >
         <LinkButton href="/curricula" variant="primary">
           Go to my curriculum
