@@ -10,7 +10,8 @@ import { GridWorkspace } from '@/app/lessons/[id]/GridWorkspace'
 
 // Grid generation is a server action invoked from this page, so this page's
 // function is the one that has to stay alive for the length of a Claude call.
-export const maxDuration = 60
+// 300s is comfortably more than an Opus call needs.
+export const maxDuration = 300
 
 export default async function LessonPage({ params }: { params: Promise<{ id: string }> }) {
   const user = await requireUser()
