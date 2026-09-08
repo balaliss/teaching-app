@@ -33,7 +33,7 @@ Open **Terminal** (Mac) or **PowerShell** (Windows). Paste these one at a time.
 ### 1️⃣ Get the code
 
 ```bash
-git clone -b claude/teaching-app-curriculum-grid-6331v5 https://github.com/balaliss/teaching-app
+git clone https://github.com/balaliss/teaching-app
 ```
 
 ```bash
