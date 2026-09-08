@@ -1,0 +1,28 @@
+name: Idea or request
+description: Something the app should do that it doesn't
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+      description: >
+        Describe the teaching situation, not the feature. "I want a column for X"
+        is useful; "I need to know which students to pull for small group" is more
+        useful, because there may be a better answer than a column.
+    validations:
+      required: true
+
+  - type: textarea
+    id: today
+    attributes:
+      label: How do you handle it today?
+      placeholder: I write it on a sticky note on the clipboard.
+
+  - type: markdown
+    attributes:
+      value: |
+        **Before you file:** the grid's rows and columns are settings, not code.
+        If your idea is "the grid should have a column for X", you can add it
+        yourself under **My grid** and it will be filled in on the next write.
+        No issue needed.

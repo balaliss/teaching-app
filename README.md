@@ -10,6 +10,17 @@ lesson phases (Welcome, Launch, Learn, Land, Wrap), you confirm what it found, a
 Claude expands any lesson into step-by-step teaching instructions laid out as a grid you
 can print and teach from.
 
+> **This repository contains no curriculum content.** Wit & Wisdom and Wit & Wisdom ELD
+> are published by Great Minds and are licensed material. Nothing from them is included
+> here — not lesson text, not module content, not sample pages. The parser recognises
+> their *structure* (the words "Module", "Lesson", and the Welcome / Launch / Learn /
+> Land headings), which is public knowledge about how the programme is organised.
+>
+> To use this you supply your own licensed Teacher Edition. Uploaded files stay private
+> to the account that uploaded them, and lesson text is sent to the Anthropic API when a
+> grid is generated. If your district restricts third-party processing of Great Minds
+> material, run the local Docker setup below rather than deploying it.
+
 ## What a teacher does
 
 1. **Sign in.** Accounts are invite-only; an admin issues invite links from `/admin/invites`.
@@ -87,13 +98,6 @@ Admins see per-teacher usage and can raise or remove any cap at `/admin/usage`.
 The deterministic parser handles well-formed Teacher Editions for free; Claude is only
 asked to identify structure when that parser recognises too little.
 
-## Licensed material
-
-Wit & Wisdom Teacher Editions are licensed Great Minds material. Uploaded files are private
-to the account that uploaded them and are never shared between teachers, and lesson text is
-sent to the Anthropic API when a grid is generated. If your district is strict about
-third-party processing, run this on the local Docker setup.
-
 ## Architecture
 
 | Path | What lives there |
@@ -137,3 +141,16 @@ Self-hosting instead: the Dockerfile builds a standalone server bundle (`BUILD_S
 so the image runs anywhere. Set `DATABASE_URL`, `AUTH_SECRET`, `AUTH_URL` and `ANTHROPIC_API_KEY`, run
 `npx prisma migrate deploy && npm run db:seed`, and switch `STORAGE_DRIVER` to `s3` if the
 host has no persistent disk.
+
+## License
+
+[MIT](LICENSE) — use it, change it, run it in your district. No warranty.
+
+The licence covers **this software only**. It says nothing about Wit & Wisdom, which
+remains Great Minds' copyrighted material and needs your own licence.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). Security reports go through
+[private advisories](https://github.com/balaliss/teaching-app/security/advisories/new),
+not public issues — see [SECURITY.md](SECURITY.md).

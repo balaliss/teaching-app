@@ -30,15 +30,30 @@ Skip anything you already have.
 
 Open **Terminal** (Mac) or **PowerShell** (Windows). Paste these one at a time.
 
+> 🛑 **Paste these ONE LINE AT A TIME.** If you paste the whole block, and one command
+> asks you a question, the next lines get swallowed as your answer. That failure looks
+> very confusing.
+
 ### 1️⃣ Get the code
 
+**Option A — one command** (needs `git`, which Macs usually have):
+
 ```bash
-git clone -b claude/teaching-app-curriculum-grid-6331v5 https://github.com/balaliss/teaching-app
+git clone https://github.com/balaliss/teaching-app
 ```
 
 ```bash
 cd teaching-app
 ```
+
+**Option B — no command line at all**
+
+1. Open <https://github.com/balaliss/teaching-app>
+2. Green **Code** button → **Download ZIP**
+3. Unzip it, then type `cd ` (with a space) and **drag the folder onto the Terminal window**
+
+> ⚠️ The unzipped folder is called **`teaching-app-main`**, not `teaching-app`. Dragging it
+> in gets that right for you.
 
 ### 2️⃣ Make your settings file
 

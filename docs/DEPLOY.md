@@ -48,7 +48,7 @@ and leave `S3_ENDPOINT` blank — the driver switches to virtual-host addressing
 ## 3. App — Vercel
 
 1. [vercel.com/new](https://vercel.com/new) → import `balaliss/teaching-app`.
-2. Set the production branch to the branch you want to deploy.
+2. Leave the production branch as `main`.
 3. Add these environment variables (Settings → Environment Variables):
 
 | Variable | Value |
@@ -78,7 +78,7 @@ Migrations create the tables but not the starting data. The app needs one admin 
 the default grid layout, so run the seed once from your machine against the Neon database:
 
 ```bash
-git clone -b claude/teaching-app-curriculum-grid-6331v5 https://github.com/balaliss/teaching-app
+git clone https://github.com/balaliss/teaching-app
 cd teaching-app && npm install
 
 DATABASE_URL='<neon direct connection string>' \

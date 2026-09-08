@@ -1,0 +1,25 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      # One PR for the routine noise, so review attention goes to the rest.
+      patch-and-minor:
+        patterns: ['*']
+        update-types: [minor, patch]
+    ignore:
+      # Major bumps of these three are migrations, not updates. Do them on purpose.
+      - dependency-name: next
+        update-types: [version-update:semver-major]
+      - dependency-name: '@prisma/client'
+        update-types: [version-update:semver-major]
+      - dependency-name: prisma
+        update-types: [version-update:semver-major]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

@@ -1,0 +1,66 @@
+name: Something is broken
+description: The app did something wrong, or stopped working
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please don't paste your API key, your `.env` file, or a whole Teacher
+        Edition. If a specific lesson triggers it, the module and lesson number
+        is enough.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      placeholder: I clicked Upload it and the page sat there for five minutes.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: How can someone else make it happen?
+      placeholder: |
+        1. Sign in
+        2. My curriculum → upload a Grade 3 ELD Teacher Edition
+        3. ...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where does it go wrong?
+      options:
+        - Signing in or making an account
+        - Uploading a Teacher Edition
+        - Check what we found (the structure screen)
+        - Writing a grid
+        - Editing a cell
+        - Printing
+        - Somewhere else
+    validations:
+      required: true
+
+  - type: textarea
+    id: errors
+    attributes:
+      label: Any error text
+      description: >
+        From the red message on screen, or from the terminal running `npm run dev`.
+        Check it for keys before pasting.
+      render: text
+
+  - type: input
+    id: version
+    attributes:
+      label: Which commit or version?
+      placeholder: output of `git rev-parse --short HEAD`, or "downloaded the ZIP today"
