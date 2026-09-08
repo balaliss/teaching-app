@@ -10,6 +10,17 @@ lesson phases (Welcome, Launch, Learn, Land, Wrap), you confirm what it found, a
 Claude expands any lesson into step-by-step teaching instructions laid out as a grid you
 can print and teach from.
 
+> **This repository contains no curriculum content.** Wit & Wisdom and Wit & Wisdom ELD
+> are published by Great Minds and are licensed material. Nothing from them is included
+> here — not lesson text, not module content, not sample pages. The parser recognises
+> their *structure* (the words "Module", "Lesson", and the Welcome / Launch / Learn /
+> Land headings), which is public knowledge about how the programme is organised.
+>
+> To use this you supply your own licensed Teacher Edition. Uploaded files stay private
+> to the account that uploaded them, and lesson text is sent to the Anthropic API when a
+> grid is generated. If your district restricts third-party processing of Great Minds
+> material, run the local Docker setup below rather than deploying it.
+
 ## What a teacher does
 
 1. **Sign in.** Accounts are invite-only; an admin issues invite links from `/admin/invites`.

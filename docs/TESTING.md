@@ -36,40 +36,24 @@ Open **Terminal** (Mac) or **PowerShell** (Windows). Paste these one at a time.
 
 ### 1️⃣ Get the code
 
-The repo is **private**, so a plain `git clone` will ask for a password and then refuse it —
-GitHub stopped accepting passwords for this in 2021. Pick whichever of these is easier.
-
-**Option A — no installing anything (fastest)**
-
-1. Open <https://github.com/balaliss/teaching-app> in your browser, signed in as yourself.
-2. Green **Code** button → **Download ZIP**.
-3. Unzip it, then drag the folder into Terminal after typing `cd ` (with a space).
-
-> ⚠️ The unzipped folder is called **`teaching-app-main`**, not `teaching-app`. So your
-> `cd` command has the `-main` on the end.
-
-**Option B — GitHub's own tool (better if you'll pull updates later)**
+**Option A — one command** (needs `git`, which Macs usually have):
 
 ```bash
-brew install gh
-```
-
-```bash
-gh auth login
-```
-
-Answer: **GitHub.com** → **HTTPS** → **Y** to authenticate git → **Login with a web browser**.
-It shows you a code, opens your browser, you paste the code. Then:
-
-```bash
-gh repo clone balaliss/teaching-app
+git clone https://github.com/balaliss/teaching-app
 ```
 
 ```bash
 cd teaching-app
 ```
 
-> 💡 Don't have `brew`? Use Option A.
+**Option B — no command line at all**
+
+1. Open <https://github.com/balaliss/teaching-app>
+2. Green **Code** button → **Download ZIP**
+3. Unzip it, then type `cd ` (with a space) and **drag the folder onto the Terminal window**
+
+> ⚠️ The unzipped folder is called **`teaching-app-main`**, not `teaching-app`. Dragging it
+> in gets that right for you.
 
 ### 2️⃣ Make your settings file
 

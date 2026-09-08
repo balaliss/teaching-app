@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Trouble setting it up
+    url: https://github.com/balaliss/teaching-app/blob/main/docs/TESTING.md#something-broke
+    about: The setup guide has a fix for most first-run errors. Try there first.
+  - name: Security problem
+    url: https://github.com/balaliss/teaching-app/security/advisories/new
+    about: Please report privately, not as a public issue.
