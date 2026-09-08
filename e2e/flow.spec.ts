@@ -118,12 +118,19 @@ test('teacher path: upload, confirm structure, change layout, print', async ({ p
 test('a second teacher cannot see the first teacher\'s curricula', async ({ page }) => {
   await signIn(page, ADMIN_EMAIL, ADMIN_PASSWORD)
 
-  // Grab a curriculum id belonging to the admin.
+  // Upload a curriculum of our own rather than reusing one another test made:
+  // tests run in parallel and against a fresh database in CI, so depending on
+  // another test's data is a race.
   await page.goto('/curricula')
-  const firstCurriculum = page.locator('tbody tr a').first()
-  await expect(firstCurriculum).toBeVisible()
-  const href = await firstCurriculum.getAttribute('href')
-  expect(href).toBeTruthy()
+  await page.getByLabel('Title').fill(unique('Isolation Fixture'))
+  await page.getByLabel('File').setInputFiles({
+    name: 'teacher-edition.pdf',
+    mimeType: 'application/pdf',
+    buffer: makeTextPdf(SAMPLE_TEACHER_EDITION),
+  })
+  await page.getByRole('button', { name: 'Upload and parse' }).click()
+  await expect(page).toHaveURL(/\/curricula\/[^/]+\/review$/)
+  const href = `/curricula/${page.url().split('/curricula/')[1].split('/')[0]}`
 
   // Issue an invite and redeem it as a new teacher.
   await page.goto('/admin/invites')
@@ -144,7 +151,7 @@ test('a second teacher cannot see the first teacher\'s curricula', async ({ page
   await expect(page.getByRole('link', { name: 'Curricula', exact: true })).toBeVisible()
 
   // The admin's curriculum must be invisible, and admin pages out of reach.
-  await page.goto(href!)
+  await page.goto(href)
   await expect(page.getByRole('heading', { name: /could not be found/i })).toBeVisible()
 
   await page.goto('/admin/usage')

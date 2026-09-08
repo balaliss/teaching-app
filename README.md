@@ -1,5 +1,7 @@
 # Teaching App
 
+[![CI](https://github.com/balaliss/teaching-app/actions/workflows/ci.yml/badge.svg)](https://github.com/balaliss/teaching-app/actions/workflows/ci.yml)
+
 Turns a **Wit & Wisdom ELD** Teacher Edition into an explicit, printable instruction
 grid for the specific lesson being taught — one version per language-proficiency band.
 
@@ -131,7 +133,7 @@ PLAYWRIGHT_CHROMIUM_PATH=/path/to/chrome npm run test:e2e
 walkthrough, including the two Neon connection strings, R2 token scopes, the one-time seed
 step, and the function-timeout trap that decides which Claude model to use.
 
-Self-hosting instead: `next.config.ts` builds a standalone server, so the Docker image runs
-anywhere. Set `DATABASE_URL`, `AUTH_SECRET`, `AUTH_URL` and `ANTHROPIC_API_KEY`, run
+Self-hosting instead: the Dockerfile builds a standalone server bundle (`BUILD_STANDALONE=1`),
+so the image runs anywhere. Set `DATABASE_URL`, `AUTH_SECRET`, `AUTH_URL` and `ANTHROPIC_API_KEY`, run
 `npx prisma migrate deploy && npm run db:seed`, and switch `STORAGE_DRIVER` to `s3` if the
 host has no persistent disk.

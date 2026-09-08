@@ -10,7 +10,8 @@ WORKDIR /app
 RUN apk add --no-cache openssl
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-ENV NEXT_TELEMETRY_DISABLED=1
+# Opt in to the self-contained server bundle copied into the runner stage below.
+ENV NEXT_TELEMETRY_DISABLED=1 BUILD_STANDALONE=1
 RUN npx prisma generate && npx next build
 
 FROM node:22-alpine AS runner

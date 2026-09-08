@@ -265,7 +265,8 @@ npm test          # 28 checks: the PDF parser, the grid layout rules, the spendi
 npm run test:e2e  # 4 browser tests that click through the app (needs `npm run dev` still running)
 ```
 
-All should pass. With your API key set, `npm run test:e2e` also tests real generation —
+All should pass. These also run automatically on GitHub for every push, so if you change
+something and the badge at the top of the README goes red, that tells you what broke. With your API key set, `npm run test:e2e` also tests real generation —
 the one thing I couldn't run.
 
 ---

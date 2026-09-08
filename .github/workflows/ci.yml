@@ -1,0 +1,95 @@
+name: CI
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: [main]
+
+# A newer push to the same branch makes the older run pointless.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Typecheck, tests, build
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: teaching
+          POSTGRES_PASSWORD: teaching
+          POSTGRES_DB: teaching_app
+        ports:
+          - 5432:5432
+        # Without this the first migration can race the database's startup.
+        options: >-
+          --health-cmd "pg_isready -U teaching -d teaching_app"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DATABASE_URL: postgresql://teaching:teaching@localhost:5432/teaching_app?schema=public
+      # No pooler in CI, so migrations use the same connection.
+      DIRECT_URL: postgresql://teaching:teaching@localhost:5432/teaching_app?schema=public
+      AUTH_TRUST_HOST: 'true'
+      SEED_ADMIN_EMAIL: ci-admin@example.org
+      SEED_ADMIN_PASSWORD: ci-only-password-not-a-secret
+      SEED_ADMIN_NAME: CI Admin
+      STORAGE_DRIVER: disk
+      STORAGE_DISK_PATH: ./storage/uploads
+      NEXT_TELEMETRY_DISABLED: '1'
+      # ANTHROPIC_API_KEY is deliberately absent: CI must never spend money.
+      # The e2e suite skips its live-generation assertions without a key, and
+      # the unit tests never call the API at all.
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      # Generated per run rather than committed, so there is no secret-shaped
+      # string in the repository for scanners to flag.
+      - name: Generate a throwaway AUTH_SECRET
+        run: echo "AUTH_SECRET=$(openssl rand -base64 32)" >> "$GITHUB_ENV"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Apply migrations
+        run: npx prisma migrate deploy
+
+      - name: Seed the default grid layout and admin account
+        run: npm run db:seed
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      # Playwright starts the built app itself (see webServer in
+      # playwright.config.ts) and waits for it to answer.
+      - name: End-to-end tests
+        run: npm run test:e2e
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
