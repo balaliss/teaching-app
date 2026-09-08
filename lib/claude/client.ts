@@ -16,7 +16,14 @@ export class MissingApiKeyError extends Error {
 export function anthropic(): Anthropic {
   const apiKey = env.anthropicApiKey
   if (!apiKey) throw new MissingApiKeyError()
-  if (!cached) cached = new Anthropic({ apiKey })
+  if (!cached) {
+    const workspaceId = env.anthropicWorkspaceId
+    cached = new Anthropic({
+      apiKey,
+      // Some accounts require org-level keys to declare which workspace they act as.
+      defaultHeaders: workspaceId ? { 'anthropic-workspace-id': workspaceId } : undefined,
+    })
+  }
   return cached
 }
 

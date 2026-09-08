@@ -25,6 +25,9 @@ export const env = {
   get anthropicApiKey() {
     return optional('ANTHROPIC_API_KEY')
   },
+  get anthropicWorkspaceId() {
+    return optional('ANTHROPIC_WORKSPACE_ID')
+  },
   get structureModel() {
     return optional('CLAUDE_STRUCTURE_MODEL') ?? 'claude-sonnet-5'
   },
