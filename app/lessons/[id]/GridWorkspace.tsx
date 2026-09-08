@@ -164,6 +164,14 @@ export function GridWorkspace({
         <p className="text-xs text-muted">{activeLevel.description}</p>
       ) : null}
 
+      {!grid ? (
+        <p className="text-xs text-muted">
+          Generate asks Claude to write out every cell below for this proficiency band —
+          it takes a few seconds. Do this once per band; edit individual cells afterward
+          instead of regenerating the whole grid.
+        </p>
+      ) : null}
+
       {grid?.status === "FAILED" ? (
         <Alert>{grid.error ?? "Generation failed."}</Alert>
       ) : null}

@@ -167,7 +167,10 @@ export function StructureEditor({
 
       {visibleModules.length === 0 ? (
         <Alert kind="info">
-          Nothing here yet. Use “Add module” to build the structure by hand, or re-parse the file.
+          Nothing here yet. The parser looks for module and lesson numbers and the five
+          phases — Welcome, Launch, Learn, Land, Wrap — so a layout that labels things
+          differently can come up empty. Try “Re-parse the file” if you just fixed the
+          upload, or use “Add module” to build the structure by hand.
         </Alert>
       ) : null}
 

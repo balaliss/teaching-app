@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { prisma } from '@/lib/db'
 import { requireUser } from '@/lib/session'
-import { Card, EmptyState, PageHeading } from '@/components/ui'
+import { Alert, Card, EmptyState, PageHeading } from '@/components/ui'
 import { UploadForm } from '@/app/curricula/UploadForm'
 
 const STATUS_LABEL: Record<string, string> = {
@@ -35,6 +35,16 @@ export default async function CurriculaPage() {
         title="Curricula"
         subtitle="Upload a Wit & Wisdom ELD Teacher Edition once per module. Files stay private to your account."
       />
+
+      <Alert kind="info">
+        <p className="font-medium">How this works</p>
+        <ol className="mt-1 list-decimal space-y-0.5 pl-4">
+          <li>Upload a Teacher Edition below (PDF, DOCX or XLSX).</li>
+          <li>Check the modules, lessons and phases it found, and fix anything wrong.</li>
+          <li>Open a lesson and hit Generate — Claude fills in the teaching grid.</li>
+          <li>Edit any cell you don&apos;t like, then print.</li>
+        </ol>
+      </Alert>
 
       <Card>
         <UploadForm />
