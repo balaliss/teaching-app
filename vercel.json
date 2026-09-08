@@ -3,7 +3,7 @@
   "buildCommand": "prisma generate && prisma migrate deploy && next build",
   "functions": {
     "app/**": {
-      "maxDuration": 60
+      "maxDuration": 300
     }
   }
 }

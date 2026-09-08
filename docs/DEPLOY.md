@@ -99,22 +99,34 @@ If you skip this step, sign-in fails (no accounts exist) and generation reports
 
 ## Things that will bite you
 
+**Uploads over 4.5 MB fail on Vercel.** This is the one that will actually stop you.
+Vercel Functions cap the request body at **4.5 MB**, and a full Teacher Edition PDF is
+usually well past that. The upload returns `413 FUNCTION_PAYLOAD_TOO_LARGE` — not a
+timeout, not a parser problem, just a rejected request.
+
+Three ways out, cheapest first:
+
+1. **Run it locally instead** (`docs/TESTING.md`). No body limit. Right answer while it is
+   only you testing.
+2. **Host the container somewhere without that cap** — Fly.io, Render, Railway, any VPS.
+   The `Dockerfile` in this repo already builds a self-contained server, so this is a
+   deploy, not a rewrite. This is the recommended path for real multi-teacher use.
+3. **Upload straight to the bucket from the browser**, with the app handing out a
+   presigned URL so the file never passes through a function. Correct and unlimited, but
+   it is real work — a new route, a changed upload form, and CORS on the bucket. Not
+   built. Ask if you want it.
+
 **Function timeout.** Grid generation is one Claude call and has to finish inside the
-function's time limit. Vercel's Hobby plan caps functions at 60 seconds; `vercel.json` and
-the route segment configs are set to that. An Opus call writing a full six-column grid can
-run close to that ceiling on a long lesson.
+function's limit. Vercel's Hobby plan allows **300 seconds**, which is comfortably more
+than an Opus call needs, so `claude-opus-5` is fine on the free plan. `vercel.json` and
+the route segment configs are set to 300. Pro allows up to 800s if you ever need it.
 
-- On **Hobby**: set `CLAUDE_GRID_MODEL=claude-sonnet-5`. Noticeably faster, and comfortably
-  inside 60s.
-- On **Pro**: `claude-opus-5` is fine. Raise `maxDuration` to `300` in `vercel.json`,
-  `app/api/curricula/route.ts` and `app/lessons/[id]/page.tsx` (check Vercel's current plan
-  limits first).
+A timeout surfaces as a failed grid with an error on the lesson page — nothing is
+corrupted, and you can just generate again.
 
-A timeout surfaces as a failed grid with an error on the lesson page — nothing is corrupted,
-and you can just generate again.
-
-**Upload size.** `next.config.ts` allows 25 MB and `MAX_UPLOAD_MB` defaults to 25. A full
-Teacher Edition PDF can exceed that; raise both if uploads are rejected.
+**Upload size, self-hosting.** `next.config.ts` allows 25 MB and `MAX_UPLOAD_MB` defaults
+to 25. A large Teacher Edition can exceed even that; raise both if uploads are rejected.
+(On Vercel the 4.5 MB platform cap bites first — see above.)
 
 **Vercel Hobby is non-commercial.** Fine for you and a few colleagues trying it out. If this
 becomes a district tool, that needs a Pro plan.

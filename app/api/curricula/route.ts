@@ -53,6 +53,6 @@ export async function POST(request: Request) {
 export const runtime = 'nodejs'
 
 // Parsing a full Teacher Edition takes a few seconds; the Claude fallback for an
-// unrecognised layout takes longer. 60 is the ceiling on Vercel Hobby — raise this
-// and the matching value in vercel.json on a plan that allows more.
-export const maxDuration = 60
+// unrecognised layout takes longer. 300s is both the default and the ceiling on
+// Vercel Hobby; Pro allows more. Keep in step with vercel.json.
+export const maxDuration = 300

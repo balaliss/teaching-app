@@ -53,6 +53,19 @@ why you added it. But it pulls against a few things this repo already does on pu
 If ponytail ever pushes toward dropping one of those, that's the skill doing its job in
 the wrong place. `/ponytail lite` dials it back; "stop ponytail" turns it off.
 
+## Want these in every project, not just this one?
+
+Skills in `.claude/skills/` are scoped to this repository. To have them apply everywhere
+on your machine, copy them into your personal folder:
+
+```bash
+mkdir -p ~/.claude/skills
+cp -R .claude/skills/i-have-adhd .claude/skills/ponytail* ~/.claude/skills/
+```
+
+That folder belongs to no repo, so it follows you rather than the code. Full notes in
+[docs/YOUR-MACHINE.md](../docs/YOUR-MACHINE.md).
+
 ## Adding more
 
 Drop a directory under `.claude/skills/` containing a `SKILL.md` with `name` and
