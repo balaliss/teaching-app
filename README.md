@@ -98,13 +98,6 @@ Admins see per-teacher usage and can raise or remove any cap at `/admin/usage`.
 The deterministic parser handles well-formed Teacher Editions for free; Claude is only
 asked to identify structure when that parser recognises too little.
 
-## Licensed material
-
-Wit & Wisdom Teacher Editions are licensed Great Minds material. Uploaded files are private
-to the account that uploaded them and are never shared between teachers, and lesson text is
-sent to the Anthropic API when a grid is generated. If your district is strict about
-third-party processing, run this on the local Docker setup.
-
 ## Architecture
 
 | Path | What lives there |
@@ -148,3 +141,16 @@ Self-hosting instead: the Dockerfile builds a standalone server bundle (`BUILD_S
 so the image runs anywhere. Set `DATABASE_URL`, `AUTH_SECRET`, `AUTH_URL` and `ANTHROPIC_API_KEY`, run
 `npx prisma migrate deploy && npm run db:seed`, and switch `STORAGE_DRIVER` to `s3` if the
 host has no persistent disk.
+
+## License
+
+[MIT](LICENSE) — use it, change it, run it in your district. No warranty.
+
+The licence covers **this software only**. It says nothing about Wit & Wisdom, which
+remains Great Minds' copyrighted material and needs your own licence.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). Security reports go through
+[private advisories](https://github.com/balaliss/teaching-app/security/advisories/new),
+not public issues — see [SECURITY.md](SECURITY.md).
