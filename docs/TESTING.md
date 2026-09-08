@@ -1,282 +1,254 @@
-# How to test this — start here
+# Try the app — start here
 
-Plain-English walkthrough for getting the app running on your own laptop and trying it
-properly. **Everything runs on your machine.** No accounts to create except one Claude API
-key, no cloud, no cost beyond a few cents of API usage.
+**You need:** a laptop, ~25 minutes, and a Teacher Edition PDF.
 
-Total time: about 15 minutes to set up, 10 minutes to test.
+**You'll do:** install 3 things → paste 6 commands → upload a PDF → get a lesson grid.
 
-> Doing the Vercel deployment instead so colleagues can log in? Do **this** first anyway —
-> if it doesn't work locally, it won't work deployed. Then see [DEPLOY.md](DEPLOY.md).
+If you get stuck, jump to [Something broke](#something-broke) at the bottom. Every error has a fix there.
 
 ---
 
-# Part 1 — Set it up (15 min)
+# 🟩 Part 1 — Install 3 things
 
-## Before you start: install three things
+Skip anything you already have.
 
-| Thing | Why | Where |
-|---|---|---|
-| **Node 22 or newer** | Runs the app | [nodejs.org](https://nodejs.org) — take the LTS download |
-| **Docker Desktop** | Runs the database, so you don't have to install Postgres | [docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop/) |
-| **A Claude API key** | Writes the lesson instructions | [console.anthropic.com](https://console.anthropic.com) → API Keys → Create Key |
+**1. Node** → [nodejs.org](https://nodejs.org) → click the big green **LTS** button → install it.
 
-**About the API key:** it starts with `sk-ant-`. You'll see it once — copy it somewhere safe.
-You need a few dollars of credit on the account (Billing → add credit). This is separate from
-a Claude.ai subscription; a Pro/Max plan does **not** give you API credit.
+**2. Docker Desktop** → [docker.com](https://www.docker.com/products/docker-desktop/) → download → install → **open it**.
 
-Open Docker Desktop and leave it running. If its whale icon isn't steady, nothing below works.
+> ⚠️ Docker has to be *running*, not just installed. Look for the whale icon in your menu bar. Wait until it stops moving.
 
-## Step 1 — Get the code
+**3. A Claude API key** → [console.anthropic.com](https://console.anthropic.com) → **API Keys** → **Create Key** → copy it somewhere safe.
 
-Open Terminal (Mac) or PowerShell (Windows) and paste:
+> ⚠️ Two gotchas:
+> - You only see the key **once**. Copy it now.
+> - Add ~$5 credit under **Billing**. A Claude.ai subscription does **not** work here. Different thing.
+
+---
+
+# 🟩 Part 2 — Six commands
+
+Open **Terminal** (Mac) or **PowerShell** (Windows). Paste these one at a time.
+
+### 1️⃣ Get the code
 
 ```bash
 git clone -b claude/teaching-app-curriculum-grid-6331v5 https://github.com/balaliss/teaching-app
+```
+
+```bash
 cd teaching-app
 ```
 
-✅ You should see: a new `teaching-app` folder, and your prompt now inside it.
-
-## Step 2 — Make your settings file
+### 2️⃣ Make your settings file
 
 ```bash
 cp .env.example .env
 ```
 
-On Windows PowerShell use `copy .env.example .env` instead.
+> Windows: use `copy .env.example .env`
 
-✅ You should see: nothing. Silence means it worked.
-
-## Step 3 — Fill in four settings
-
-Open the new `.env` file in any text editor (VS Code, Notepad, TextEdit). Change **only these
-four lines** — leave everything else exactly as it is:
-
-```
-AUTH_SECRET="<paste the random string from below>"
-SEED_ADMIN_EMAIL="you@yourschool.org"
-SEED_ADMIN_PASSWORD="pick-a-real-password"
-ANTHROPIC_API_KEY="sk-ant-..."
-```
-
-To generate the random string for `AUTH_SECRET`, run this and paste what it prints:
+### 3️⃣ Make a password key
 
 ```bash
 node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
 ```
 
-`SEED_ADMIN_EMAIL` and `SEED_ADMIN_PASSWORD` are the login you'll use in a minute. Make them
-something you'll remember. Save the file.
+**Copy what it prints.** You need it in the next step.
 
-## Step 4 — Start the database
+### 4️⃣ Edit 4 lines
+
+Open the `.env` file in any editor (VS Code, Notepad, TextEdit).
+
+Find these 4 lines. Change **only** these 4. Leave everything else alone.
+
+```
+AUTH_SECRET="paste what step 3 printed"
+SEED_ADMIN_EMAIL="your@email.com"
+SEED_ADMIN_PASSWORD="make one up"
+ANTHROPIC_API_KEY="sk-ant-... your key from Part 1"
+```
+
+**Save the file.**
+
+> 💡 That email and password = your login. Write them down.
+
+### 5️⃣ Start the database + install
 
 ```bash
 docker compose up -d db
 ```
 
-✅ You should see: `Container teaching-app-db-1  Started`
-
-## Step 5 — Install and set up
-
-Three commands, one at a time:
-
 ```bash
 npm install
+```
+
+```bash
 npm run db:migrate
+```
+
+```bash
 npm run db:seed
 ```
 
-✅ You should see, in order:
-- `npm install` → a few hundred packages added (takes 1–2 minutes, warnings are normal)
-- `npm run db:migrate` → `Your database is now in sync with your schema`
-- `npm run db:seed` → `Created default grid template ...` and `Admin account ready: you@yourschool.org`
+> ✅ **Look for this line:** `Admin account ready: your@email.com`
+>
+> 🛑 **Don't see it?** Your `.env` email/password lines are empty. Go back to step 4️⃣.
 
-**That last line is the one that matters.** If you don't see "Admin account ready", you can't
-log in. Go back to Step 3 and check the email and password lines are filled in.
-
-## Step 6 — Run it
+### 6️⃣ Run it
 
 ```bash
 npm run dev
 ```
 
-✅ You should see: `✓ Ready in ...` and `- Local: http://localhost:3000`
+Open **http://localhost:3000** → log in with your email + password from step 4️⃣.
 
-Open **http://localhost:3000** in your browser. You'll get a sign-in page. Log in with the
-email and password from Step 3.
+**🎉 You're in.**
 
-**Leave this terminal window open** — closing it stops the app. To stop it later, press
-`Ctrl+C`. To start again another day: `docker compose up -d db` then `npm run dev`.
-
----
-
-# Part 2 — Test it (10 min)
-
-Have your Wit & Wisdom ELD Teacher Edition PDF handy, and the paper/PDF version open beside
-you so you can compare.
-
-## 1. Upload
-
-Click **Curricula** in the top bar. Fill in:
-- **Title** — anything, e.g. "Grade 3 ELD — Module 1"
-- **Grade band** — e.g. "Grade 3" (optional)
-- **File** — your Teacher Edition PDF
-
-Click **Upload and parse**. Takes 5–30 seconds depending on the file size.
-
-## 2. Check what it found — *this is the important screen*
-
-You land on the structure page automatically. This tells you whether the app understood your
-PDF. Look at:
-
-- Is the **module title** right?
-- Is the **Focusing Question** right?
-- Does the **lesson count** look right? (top of the page: "1 module(s) · 12 lesson(s)")
-- Click a lesson open. Are **Welcome / Launch / Learn / Land** attached to the right chunks
-  of text?
-
-Anything wrong, fix it right here — the boxes are editable, and there are Add/Remove buttons.
-Then click **Save structure**.
-
-> **If it found nothing or made a mess:** that's useful information, not a dead end. The app
-> falls back to asking Claude to read the layout, and you can also build the structure by
-> hand. Either way, **tell me what you saw** — that's the parser needing to learn your
-> edition's layout, and it's fixable.
-
-## 3. Pick a lesson
-
-Click **Done — go to lessons**, then click the lesson you'd actually teach next week.
-
-You'll see an **empty grid** with your rows and columns. Look at it before generating —
-are those the six columns you'd want? (You can change them later; see Part 3.)
-
-## 4. Generate
-
-Click **Generate Emerging**. Wait 20–60 seconds — this is Claude writing the whole grid.
-
-Then click the **Expanding** and **Bridging** tabs and generate those too, or use
-**Generate all 3 levels**.
-
-## 5. Try editing
-
-Hover over any cell → click **Edit** → change the text → **Save**. The cell gets an
-orange **"edited"** badge.
-
-Now click **Regenerate**. Your edited cell should stay exactly as you wrote it while
-everything else refreshes. **If your edit gets wiped, that's a bug — tell me.**
-
-## 6. Print
-
-Click **Print view** → **Print / save as PDF**. Choose **Landscape** in the print dialog.
-You get one page per proficiency level.
+> Keep that terminal window **open**. Closing it stops the app.
+> To stop: `Ctrl+C`. To start again tomorrow: `docker compose up -d db` then `npm run dev`.
 
 ---
 
-# Part 3 — What to actually judge
+# 🟩 Part 3 — Test it (10 min)
 
-The mechanics above I've already tested. What I could **not** test is whether the writing is
-any good — I had no API key. That's the real question, and it needs you with the Teacher
-Edition open next to the screen.
+Have your Teacher Edition open next to you — paper or PDF. You'll be comparing.
 
-Four things to look for:
+### ⬜ Upload
 
-### 1. Does it make things up?
-The biggest risk. Check for handouts, page numbers, texts or assessments that **aren't in
-your Teacher Edition**. I wrote the prompt to forbid this, but it's the failure mode to hunt
-for. Even one invented page number is worth reporting.
+**Curricula** (top bar) → type any title → pick your PDF → **Upload and parse**
 
-### 2. Are the three levels actually different?
-Emerging and Bridging should differ in *support* — supplied vs. student-generated sentence
-frames, how much is read aloud, how much vocabulary is pre-taught — but engage the same text
-and the same thinking.
+Wait ~30 seconds.
 
-**If the three tabs read almost identically**, that's fixable by you: go to **Proficiency
-levels**, and write a more concrete description of what each band can and can't do. That
-description is exactly what Claude reads to decide how much to scaffold. Vague description in,
-vague differentiation out.
+### ⬜ Check what it found ← *the important one*
 
-### 3. Are these the right columns?
-The open design question. Right now: *Minutes · Teacher says & does · Students do · Materials ·
-Language objective · Check for understanding.*
+You land on a page showing what the app pulled out of your PDF.
 
-If a column is useless, or something's missing, go to **Grid layout** and change it —
-add, remove, rename, reorder. No code change needed. Each row and column has a **"Hint for
-Claude"** box, and that hint is the steering wheel for what lands in that cell. Change it,
-regenerate a lesson, compare.
+**Look at 4 things:**
 
-### 4. Could a substitute teach from it?
-That was the design target. If a sub couldn't pick it up and run the lesson, say what's
-missing.
+- ⬜ Module title — right?
+- ⬜ Focusing Question — right?
+- ⬜ Lesson count — right?
+- ⬜ Click a lesson open. Are Welcome / Launch / Learn / Land on the right chunks?
+
+Wrong? **Fix it right there** — the boxes are editable. Then **Save structure**.
+
+> 🛑 **A total mess?** That's genuinely useful to know — tell me. It means the app can't read your edition's layout yet. Fixable.
+
+### ⬜ Pick a lesson
+
+**Done — go to lessons** → click the lesson you'd teach next week.
+
+You'll see an **empty grid**. Look at the column headings before you spend anything.
+
+**Are those the columns you'd want?**
+
+### ⬜ Generate
+
+Click **Generate Emerging**.
+
+Wait 20–60 seconds. That's Claude writing the whole grid.
+
+Then click the **Expanding** and **Bridging** tabs → generate those too.
+
+### ⬜ Edit something
+
+Hover a cell → **Edit** → change the words → **Save**
+
+It gets an **"edited"** badge.
+
+Now click **Regenerate**.
+
+> ✅ Your edit should survive untouched. Everything else refreshes.
+>
+> 🛑 Edit got wiped? **Bug. Tell me.**
+
+### ⬜ Print
+
+**Print view** → **Print / save as PDF** → pick **Landscape**
+
+One page per level.
 
 ---
 
-# Part 4 — If something breaks
+# 🟩 Part 4 — The 4 questions I need answered
 
-| What you see | What it means | Fix |
-|---|---|---|
-| `docker: command not found` | Docker Desktop isn't installed or isn't running | Install it, open it, wait for the whale icon to settle |
-| `Can't reach database server` | The database container isn't up | `docker compose up -d db`, wait 10 seconds, retry |
-| Login says "that combination did not work" | The seed didn't run, or the password is different | Re-check Step 3, then re-run `npm run db:seed` |
-| `No grid template found` | The seed step was skipped | `npm run db:seed` |
-| `ANTHROPIC_API_KEY is not configured` | The key line in `.env` is empty | Fill it in, then stop (`Ctrl+C`) and restart `npm run dev` — `.env` is only read at startup |
-| Generation fails with a credit/billing error | The API account has no credit | Add credit at console.anthropic.com → Billing |
-| `Monthly generation limit reached` | You hit the built-in token cap | **Usage** in the top bar → clear your cap box → **Set** |
-| "That file is larger than the 25 MB limit" | Big Teacher Edition | Raise `MAX_UPLOAD_MB` in `.env`, restart |
-| Port 3000 already in use | Something else is running there | `npm run dev -- -p 3001`, then use localhost:3001 |
+I built and tested the machinery. I have **never seen it write a real instruction** — I had no API key.
 
-**Anything else — copy the red error text and send it to me.** The terminal window running
-`npm run dev` is where the useful errors appear.
+So these are yours to answer:
+
+### 1. Did it make anything up?
+Handouts, page numbers, texts that **aren't in your Teacher Edition**.
+
+*This is the big one.* Even one invented page number matters.
+
+### 2. Do the 3 levels actually feel different?
+Emerging should have more support than Bridging. Same text, same thinking — different scaffolding.
+
+> 💡 **All three read the same?** You can fix that yourself. Go to **Proficiency levels** and write a more specific description of each band. That description is exactly what Claude reads to decide how much support to give. Vague in → vague out.
+
+### 3. Are the columns right?
+Right now: *Minutes · Teacher says & does · Students do · Materials · Language objective · Check for understanding*
+
+Wrong ones? Missing one? Go to **Grid layout** → add / remove / rename → regenerate.
+
+No code needed. Each column has a **"Hint for Claude"** box — that's the steering wheel.
+
+### 4. Could a sub teach from it?
+That was the whole point. If not — what's missing?
 
 ---
 
-# Part 5 — What it costs
+# Something broke
 
-Generating one grid is one Claude call: roughly 10,000 tokens in (the lesson text) and 3,000
-out (the grid).
+| You see | Do this |
+|---|---|
+| `docker: command not found` | Docker isn't running. Open Docker Desktop, wait for the whale to settle. |
+| `Can't reach database server` | `docker compose up -d db` → wait 10 sec → try again |
+| Login says "did not work" | Re-run `npm run db:seed`. Check your `.env` email/password. |
+| `No grid template found` | You skipped the seed. Run `npm run db:seed` |
+| `ANTHROPIC_API_KEY is not configured` | Key line in `.env` is empty. Fill it → `Ctrl+C` → `npm run dev` again. |
+| A billing / credit error | Add credit at console.anthropic.com → Billing |
+| `Monthly generation limit reached` | **Usage** in top bar → clear your cap box → **Set** |
+| "larger than the 25 MB limit" | Change `MAX_UPLOAD_MB` in `.env` → restart |
+| `Port 3000 already in use` | `npm run dev -- -p 3001` → use localhost:3001 |
 
-| | Per grid | One lesson, all 3 levels | A whole 35-lesson module × 3 levels |
+**Anything else:** copy the red text from the terminal and send it to me.
+
+---
+
+# 💰 What it costs
+
+| | 1 grid | 1 lesson (3 levels) | Whole module (35 lessons) |
 |---|---|---|---|
-| **Opus 5** (default, best writing) | ~$0.13 | ~$0.40 | ~$14 |
-| **Sonnet 5** (faster, cheaper) | ~$0.05 | ~$0.15 | ~$5 |
+| Default (Opus) | ~13¢ | ~40¢ | ~$14 |
+| Cheaper (Sonnet) | ~5¢ | ~15¢ | ~$5 |
 
-Estimates, not a quote — real cost depends on how long your lessons are. Watch actual usage
-at **Usage** in the top bar, or in the Anthropic console.
+Estimates. Watch the real number under **Usage** in the top bar.
 
-To try the cheaper model: set `CLAUDE_GRID_MODEL="claude-sonnet-5"` in `.env` and restart.
-Generate the same lesson both ways and see whether you can tell the difference — that's a
-worthwhile test in itself.
+**Want the cheap one?** Put `CLAUDE_GRID_MODEL="claude-sonnet-5"` in `.env`, restart.
 
-The built-in cap (`DEFAULT_MONTHLY_TOKEN_CAP`) is 2,000,000 tokens/month per teacher, which is
-roughly **150 grids a month** each. It stops runaway spending before the API call is made.
+Built-in safety net: each teacher is capped at ~150 grids/month. It stops before spending, not after.
 
 ---
 
-# Part 6 — Optional extras
+<details>
+<summary><strong>Optional extras</strong> (click to open)</summary>
 
-**Check nobody can see each other's stuff.** Go to **Invites** → create one → open the link in
-a private/incognito window → register as a second teacher. That teacher should see an empty
-Curricula list, get a 404 on your curriculum's URL, and be bounced away from the admin pages.
+**Check teachers can't see each other's stuff**
 
-**Run the automated tests.** In a *second* terminal window, in the same folder:
+**Invites** → create one → open the link in a private window → sign up as a second teacher.
+That teacher should see nothing of yours, and get bounced from admin pages.
+
+**Run the automated tests**
+
+Second terminal, same folder:
 
 ```bash
-npm test          # 28 checks: the PDF parser, the grid layout rules, the spending cap, file storage
-npm run test:e2e  # 4 browser tests that click through the app (needs `npm run dev` still running)
+npm test
+npm run test:e2e
 ```
 
-All should pass. These also run automatically on GitHub for every push, so if you change
-something and the badge at the top of the README goes red, that tells you what broke. With your API key set, `npm run test:e2e` also tests real generation —
-the one thing I couldn't run.
+All should pass. These also run automatically on GitHub for every change — if the badge on the README goes red, something broke.
 
----
-
-# What to tell me
-
-After you've been through it, the most useful feedback is:
-
-1. **Did the structure page get your PDF right?** (the make-or-break step)
-2. **Did it invent anything?**
-3. **Are the columns right, or what would you change?**
-4. **Do the three levels feel meaningfully different?**
-5. Anything that errored — with the red text.
+</details>
