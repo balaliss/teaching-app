@@ -86,7 +86,7 @@ export function LevelsEditor({
           <Card key={level.id ?? `new-${index}`}>
             <div className="flex flex-wrap items-end gap-3">
               <label className="min-w-56 flex-1 text-sm">
-                <span className="font-medium">Level name</span>
+                <span className="font-medium">What you call this level</span>
                 <input
                   value={level.name}
                   onChange={(event) => patch(index, { name: event.target.value })}
@@ -102,17 +102,17 @@ export function LevelsEditor({
               </Button>
             </div>
             <label className="mt-2 block text-sm">
-              <span className="font-medium">What this level means</span>
+              <span className="font-medium">What these students can and can&apos;t do yet</span>
               <textarea
                 value={level.description ?? ''}
                 rows={3}
                 onChange={(event) => patch(index, { description: event.target.value || null })}
                 className={`${inputClass} mt-1 text-xs`}
-                placeholder="What these students can do independently, and the scaffolds they still need."
+                placeholder="e.g. Can follow a read-aloud and answer in short phrases. Still needs sentence frames supplied and key words pre-taught."
               />
             </label>
             {level.id ? null : (
-              <p className="mt-1 text-xs text-neutral-500">New — no grids generated yet.</p>
+              <p className="mt-1 text-xs text-neutral-500">New — nothing written for this level yet.</p>
             )}
           </Card>
         ),
@@ -120,7 +120,7 @@ export function LevelsEditor({
 
       <div className="flex flex-wrap gap-3">
         <Button onClick={onSave} disabled={pending}>
-          {pending ? 'Saving…' : 'Save levels'}
+          {pending ? 'Saving…' : 'Save'}
         </Button>
         <Button
           variant="secondary"
@@ -131,18 +131,18 @@ export function LevelsEditor({
             ])
           }
         >
-          Add level
+          Add another level
         </Button>
         <Button variant="secondary" onClick={applyCaPreset}>
-          Use CA ELD (3 bands)
+          Use the 3 California levels
         </Button>
         <Button variant="secondary" onClick={applyWidaPreset}>
-          Use WIDA (6 levels)
+          Use the 6 WIDA levels
         </Button>
       </div>
       <p className="text-xs text-neutral-500">
-        Removing a level also removes the grids generated for it. Presets replace the current list —
-        nothing is deleted until you save.
+        Deleting a level also deletes any grids written for it. The two buttons above swap in a
+        ready-made set of levels. Nothing actually changes until you press Save.
       </p>
     </div>
   )

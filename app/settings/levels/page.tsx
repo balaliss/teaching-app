@@ -21,11 +21,11 @@ export default async function LevelsPage({
   if (curricula.length === 0) {
     return (
       <div className="space-y-6">
-        <PageHeading title="Proficiency levels" />
+        <PageHeading title="Language levels" />
         <EmptyState
-          title="No curricula yet"
-          body="Proficiency levels are set per curriculum, so upload one first."
-          action={<LinkButton href="/curricula" variant="primary">Upload a curriculum</LinkButton>}
+          title="Nothing to set up yet"
+          body="Levels are set per Teacher Edition, so add one of those first."
+          action={<LinkButton href="/curricula" variant="primary">Add a Teacher Edition</LinkButton>}
         />
       </div>
     )
@@ -40,12 +40,12 @@ export default async function LevelsPage({
   return (
     <div className="space-y-6">
       <PageHeading
-        title="Proficiency levels"
-        subtitle="Set the bands your district uses. Each band gets its own version of every grid."
+        title="Language levels"
+        subtitle="The levels your district uses. Every grid gets written once for each one, so a lesson comes out three times with different amounts of support."
       />
 
       <Card>
-        <h2 className="mb-2 text-sm font-medium">Curriculum</h2>
+        <h2 className="mb-2 text-sm font-medium">Which Teacher Edition?</h2>
         <div className="flex flex-wrap gap-2">
           {curricula.map((curriculum) => (
             <Link
@@ -64,8 +64,9 @@ export default async function LevelsPage({
       </Card>
 
       <Alert kind="info">
-        The description is what Claude reads to decide how much to scaffold, so be concrete: what
-        students at this band can already do, and what support they still need.
+        <strong>The description matters.</strong> It&apos;s what Claude reads to decide how much
+        support to build in. Be specific about what these students can already do on their own, and
+        what they still need help with. Vague description in, vague differences out.
       </Alert>
 
       <LevelsEditor

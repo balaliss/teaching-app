@@ -13,9 +13,9 @@ export default async function RegisterPage({
 
   return (
     <div className="mx-auto max-w-sm">
-      <h1 className="text-2xl font-semibold">Create your account</h1>
+      <h1 className="text-2xl font-semibold">Make your account</h1>
       <p className="mt-1 text-sm text-neutral-600">
-        You need an invite code. Paste it below along with the email it was sent to.
+        Paste your invite code below, then pick a password. That&apos;s it.
       </p>
       <div className="mt-6">
         <RegisterForm code={code} />

@@ -23,18 +23,18 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 Teaching App
               </Link>
               <Link href="/curricula" className="hover:underline">
-                Curricula
+                My curriculum
               </Link>
               <Link href="/settings/templates" className="hover:underline">
-                Grid layout
+                My grid
               </Link>
               {user.role === 'ADMIN' ? (
                 <>
                   <Link href="/admin/invites" className="hover:underline">
-                    Invites
+                    Invite teachers
                   </Link>
                   <Link href="/admin/usage" className="hover:underline">
-                    Usage
+                    Spending
                   </Link>
                 </>
               ) : null}

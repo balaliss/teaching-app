@@ -41,21 +41,21 @@ export default async function PrintPage({
       <div className="no-print mb-6 flex flex-wrap items-center gap-3 text-sm">
         <PrintButton />
         <Link href={`/lessons/${lesson.id}`} className="text-accent underline">
-          Back to the editable grid
+          Back to the grid
         </Link>
         <span className="text-neutral-500">
-          Printing {grids.length} page{grids.length === 1 ? '' : 's'} — one per level. Choose
-          landscape in the print dialog.
+          Printing {grids.length} page{grids.length === 1 ? '' : 's'} — one per level. Pick
+          <strong> Landscape</strong> when the print box opens.
         </span>
       </div>
 
       {grids.length === 0 ? (
         <p className="text-sm text-neutral-600">
-          Nothing to print yet. Generate a grid on the{' '}
+          Nothing to print yet — you need to write a grid first, on the{' '}
           <Link href={`/lessons/${lesson.id}`} className="text-accent underline">
             lesson page
-          </Link>{' '}
-          first.
+          </Link>
+          .
         </p>
       ) : null}
 

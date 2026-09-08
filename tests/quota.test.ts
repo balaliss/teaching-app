@@ -23,7 +23,10 @@ describe('QuotaExceededError', () => {
       periodStart: monthStart(new Date('2026-03-01T00:00:00.000Z')),
     })
 
-    expect(error.message).toContain('2,000,000')
-    expect(error.message).toContain('Ask an admin')
+    // Counted in grids, not tokens: a teacher has no idea what a token is.
+    expect(error.message).toContain('about 154')
+    expect(error.message).not.toContain('token')
+    expect(error.message).toContain('Ask whoever runs this site')
+    expect(error.message).toContain('still work')
   })
 })

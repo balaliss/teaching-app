@@ -29,10 +29,10 @@ export function UploadForm() {
 
   return (
     <form onSubmit={onSubmit} className="space-y-4">
-      <h2 className="font-medium">Upload a curriculum</h2>
+      <h2 className="font-medium">Add a Teacher Edition</h2>
       {error ? <Alert>{error}</Alert> : null}
       <div className="grid gap-4 sm:grid-cols-3">
-        <Field label="Title">
+        <Field label="Name it" hint="anything you'll recognise">
           <input
             name="title"
             required
@@ -41,10 +41,10 @@ export function UploadForm() {
             placeholder="Grade 3 ELD — Module 1"
           />
         </Field>
-        <Field label="Grade band" hint="optional">
+        <Field label="Grade" hint="optional">
           <input name="gradeBand" maxLength={40} className={inputClass} placeholder="Grade 3" />
         </Field>
-        <Field label="File" hint="PDF, DOCX or XLSX">
+        <Field label="Your Teacher Edition" hint="PDF, Word or Excel">
           <input
             name="file"
             type="file"
@@ -55,11 +55,11 @@ export function UploadForm() {
         </Field>
       </div>
       <p className="text-xs text-neutral-500">
-        Teacher Editions are licensed material. Uploads are private to your account and are never
-        shared with other teachers; lesson text is sent to the Claude API when you generate a grid.
+        Your Teacher Edition stays private to you — other teachers on this site cannot see it. When
+        you make a grid, the lesson text is sent to Claude to be written up.
       </p>
       <Button type="submit" disabled={pending}>
-        {pending ? 'Uploading and reading…' : 'Upload and parse'}
+        {pending ? 'Reading your PDF…' : 'Upload it'}
       </Button>
     </form>
   )

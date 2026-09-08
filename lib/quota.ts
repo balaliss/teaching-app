@@ -14,6 +14,17 @@ export interface QuotaStatus {
   periodStart: Date
 }
 
+/**
+ * Rough tokens for one grid (a lesson's text in, a filled grid out). Used only
+ * to talk about the allowance in grids rather than tokens, because "you have
+ * 1,400,000 tokens left" means nothing to a teacher.
+ */
+export const TOKENS_PER_GRID = 13_000
+
+export function gridsFromTokens(tokens: number): number {
+  return Math.round(tokens / TOKENS_PER_GRID)
+}
+
 export function monthStart(now = new Date()): Date {
   return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1))
 }
@@ -47,8 +58,9 @@ export async function quotaStatus(userId: string): Promise<QuotaStatus> {
 export class QuotaExceededError extends Error {
   constructor(public readonly status: QuotaStatus) {
     super(
-      `Monthly generation limit reached (${status.used.toLocaleString()} of ${status.cap?.toLocaleString()} tokens used). ` +
-        'Ask an admin to raise your limit, or wait until next month.',
+      `You've used up this month's allowance for writing grids — about ${gridsFromTokens(status.used)} ` +
+        'of them so far. Ask whoever runs this site to raise your limit, or wait until next month. ' +
+        'Grids you already made still work.',
     )
     this.name = 'QuotaExceededError'
   }

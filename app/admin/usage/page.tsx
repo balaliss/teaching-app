@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/db'
 import { requireAdmin } from '@/lib/session'
-import { monthStart } from '@/lib/quota'
+import { gridsFromTokens, monthStart } from '@/lib/quota'
 import { Card, PageHeading } from '@/components/ui'
 import { CapForm } from '@/app/admin/usage/CapForm'
 
@@ -35,8 +35,8 @@ export default async function UsagePage() {
   return (
     <div className="space-y-6">
       <PageHeading
-        title="Usage"
-        subtitle={`Generation runs on the shared server key. Month starting ${periodStart.toISOString().slice(0, 10)} (UTC).`}
+        title="Spending"
+        subtitle={`Everyone's grids are written on one shared Claude account, so each teacher gets a monthly allowance. This month starts ${periodStart.toISOString().slice(0, 10)}. Roughly 13,000 tokens per grid.`}
       />
 
       <Card>
@@ -45,9 +45,9 @@ export default async function UsagePage() {
             <tr>
               <th className="py-1">Teacher</th>
               <th className="py-1">Role</th>
-              <th className="py-1">Calls</th>
-              <th className="py-1">Tokens this month</th>
-              <th className="py-1">Monthly cap</th>
+              <th className="py-1">Grids written</th>
+              <th className="py-1">Used this month</th>
+              <th className="py-1">Monthly allowance</th>
             </tr>
           </thead>
           <tbody>
@@ -64,8 +64,8 @@ export default async function UsagePage() {
                   <td className="py-2">{user.role}</td>
                   <td className="py-2">{row?.calls ?? 0}</td>
                   <td className={`py-2 ${over ? 'font-medium text-red-700' : ''}`}>
-                    {tokens.toLocaleString()}
-                    {over ? ' (at limit)' : ''}
+                    ~{gridsFromTokens(tokens)} grids
+                    {over ? ' — out of allowance' : ''}
                   </td>
                   <td className="py-2">
                     <CapForm userId={user.id} cap={user.monthlyTokenCap} />

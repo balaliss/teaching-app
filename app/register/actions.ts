@@ -15,7 +15,10 @@ export async function registerAction(
 ): Promise<{ ok: true } | { ok: false; error: string }> {
   const parsed = schema.safeParse(input)
   if (!parsed.success) {
-    return { ok: false, error: 'Check the form: a valid email and a 10+ character password are required.' }
+    return {
+      ok: false,
+      error: 'Something is missing — check the email looks right and the password is at least 10 characters.',
+    }
   }
 
   const result = await redeemInvite(parsed.data)

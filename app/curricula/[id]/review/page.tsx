@@ -23,11 +23,11 @@ export default async function ReviewPage({ params }: { params: Promise<{ id: str
   return (
     <div className="space-y-6">
       <PageHeading
-        title="Structure"
-        subtitle={`${curriculum.title} — confirm what the parser found. Teacher Edition layouts vary, so fix anything it got wrong here; the phase text below is what Claude reads when it writes the grid.`}
+        title="Check what we found"
+        subtitle={`${curriculum.title} — here are the modules and lessons we pulled out of your PDF. Teacher Editions are laid out differently from year to year, so fix anything that looks wrong. What you see here is exactly what Claude reads when it writes your grids.`}
       >
         <LinkButton href={`/curricula/${curriculum.id}`} variant="primary">
-          Done — go to lessons
+          Done — go to my lessons
         </LinkButton>
       </PageHeading>
 

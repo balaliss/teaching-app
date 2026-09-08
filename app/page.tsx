@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { prisma } from '@/lib/db'
 import { requireUser } from '@/lib/session'
-import { quotaStatus } from '@/lib/quota'
+import { gridsFromTokens, quotaStatus } from '@/lib/quota'
 import { Card, LinkButton, PageHeading } from '@/components/ui'
 
 export default async function HomePage() {
@@ -31,21 +31,21 @@ export default async function HomePage() {
     <div className="space-y-6">
       <PageHeading
         title={`Hello${user.name ? `, ${user.name.split(' ')[0]}` : ''}`}
-        subtitle="Upload a Teacher Edition, pick the lesson you're teaching, and print the grid."
+        subtitle="Add your Teacher Edition, pick the lesson you&apos;re teaching, and print the grid."
       >
         <LinkButton href="/curricula" variant="primary">
-          Go to curricula
+          Go to my curriculum
         </LinkButton>
       </PageHeading>
 
       <div className="grid gap-5 md:grid-cols-3">
         <Card>
-          <h2 className="font-medium">Your curricula</h2>
+          <h2 className="font-medium">Your Teacher Editions</h2>
           {curricula.length === 0 ? (
             <p className="mt-2 text-sm text-neutral-600">
-              Nothing uploaded yet.{' '}
+              Nothing here yet.{' '}
               <Link href="/curricula" className="text-accent hover:underline">
-                Upload one
+                Add one
               </Link>
               .
             </p>
@@ -64,9 +64,9 @@ export default async function HomePage() {
         </Card>
 
         <Card>
-          <h2 className="font-medium">Recent grids</h2>
+          <h2 className="font-medium">Grids you made recently</h2>
           {recentGrids.length === 0 ? (
-            <p className="mt-2 text-sm text-neutral-600">No grids generated yet.</p>
+            <p className="mt-2 text-sm text-neutral-600">You haven&apos;t made any grids yet.</p>
           ) : (
             <ul className="mt-2 space-y-1 text-sm">
               {recentGrids.map((grid) => (
@@ -83,10 +83,11 @@ export default async function HomePage() {
         </Card>
 
         <Card>
-          <h2 className="font-medium">This month&apos;s generation limit</h2>
+          <h2 className="font-medium">This month&apos;s allowance</h2>
           {quota.cap === null ? (
             <p className="mt-2 text-sm text-neutral-600">
-              No limit set. {quota.used.toLocaleString()} tokens used so far.
+              No limit on your account. You&apos;ve made about {gridsFromTokens(quota.used)} grids
+              so far.
             </p>
           ) : (
             <>
@@ -97,7 +98,7 @@ export default async function HomePage() {
                 />
               </div>
               <p className="mt-2 text-sm text-neutral-600">
-                {quota.used.toLocaleString()} of {quota.cap.toLocaleString()} tokens used.
+                About {gridsFromTokens(quota.cap - quota.used)} more grids this month.
               </p>
             </>
           )}

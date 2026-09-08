@@ -44,18 +44,18 @@ export default async function CurriculumPage({ params }: { params: Promise<{ id:
         title={curriculum.title}
         subtitle={[curriculum.gradeBand, curriculum.sourceFileName].filter(Boolean).join(' · ')}
       >
-        <LinkButton href={`/curricula/${curriculum.id}/review`}>Edit structure</LinkButton>
+        <LinkButton href={`/curricula/${curriculum.id}/review`}>Edit lessons</LinkButton>
         <LinkButton href={`/settings/levels?curriculum=${curriculum.id}`}>
-          Proficiency levels
+          Language levels
         </LinkButton>
       </PageHeading>
 
       {curriculum.parseStatus === 'FAILED' ? (
         <Alert>
-          {curriculum.parseError ?? 'This document could not be read.'} You can still build the
-          structure by hand on the{' '}
+          {curriculum.parseError ?? "We couldn't read this file."} You can still type the modules and
+          lessons in yourself on the{' '}
           <Link href={`/curricula/${curriculum.id}/review`} className="underline">
-            structure page
+            lessons page
           </Link>
           .
         </Alert>
@@ -63,19 +63,19 @@ export default async function CurriculumPage({ params }: { params: Promise<{ id:
 
       {curriculum.parseStatus === 'NEEDS_REVIEW' ? (
         <Alert kind="info">
-          The parsed structure has not been confirmed yet.{' '}
+          We&apos;ve read your PDF but you haven&apos;t checked it yet.{' '}
           <Link href={`/curricula/${curriculum.id}/review`} className="underline">
-            Check it
+            Have a look
           </Link>{' '}
-          before generating grids.
+          before you make any grids — it only takes a minute.
         </Alert>
       ) : null}
 
       {weeks.size === 0 ? (
         <EmptyState
           title="No lessons yet"
-          body="Add modules and lessons on the structure page, or re-parse the uploaded file."
-          action={<LinkButton href={`/curricula/${curriculum.id}/review`} variant="primary">Open structure page</LinkButton>}
+          body="Either we couldn&apos;t find any lessons in your file, or it hasn&apos;t been read yet. You can add them yourself, or have another go at reading the PDF."
+          action={<LinkButton href={`/curricula/${curriculum.id}/review`} variant="primary">Open the lessons page</LinkButton>}
         />
       ) : (
         <div className="grid gap-5 md:grid-cols-2">
@@ -90,7 +90,9 @@ export default async function CurriculumPage({ params }: { params: Promise<{ id:
                       {lesson.title}
                     </Link>
                     <span className="text-xs text-neutral-500">
-                      {lesson._count.grids > 0 ? `${lesson._count.grids} grid(s)` : 'not generated'}
+                      {lesson._count.grids > 0
+                        ? `${lesson._count.grids} grid${lesson._count.grids === 1 ? '' : 's'} made`
+                        : 'no grid yet'}
                     </span>
                   </li>
                 ))}

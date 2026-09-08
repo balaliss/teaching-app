@@ -95,7 +95,7 @@ test('the print view renders one page per level from stored cells', async ({ pag
     await page.getByLabel('Email').fill(ADMIN_EMAIL)
     await page.getByLabel('Password').fill(ADMIN_PASSWORD)
     await page.getByRole('button', { name: 'Sign in' }).click()
-    await expect(page.getByRole('link', { name: 'Curricula', exact: true })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'My curriculum', exact: true })).toBeVisible()
 
     await page.goto(`/lessons/${lesson.id}/print`)
 

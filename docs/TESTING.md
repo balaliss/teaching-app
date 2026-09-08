@@ -116,7 +116,7 @@ Have your Teacher Edition open next to you — paper or PDF. You'll be comparing
 
 ### ⬜ Upload
 
-**Curricula** (top bar) → type any title → pick your PDF → **Upload and parse**
+**My curriculum** (top bar) → give it a name → pick your PDF → **Upload it**
 
 Wait ~30 seconds.
 
@@ -131,13 +131,13 @@ You land on a page showing what the app pulled out of your PDF.
 - ⬜ Lesson count — right?
 - ⬜ Click a lesson open. Are Welcome / Launch / Learn / Land on the right chunks?
 
-Wrong? **Fix it right there** — the boxes are editable. Then **Save structure**.
+Wrong? **Fix it right there** — the boxes are editable. Then **Save**.
 
 > 🛑 **A total mess?** That's genuinely useful to know — tell me. It means the app can't read your edition's layout yet. Fixable.
 
 ### ⬜ Pick a lesson
 
-**Done — go to lessons** → click the lesson you'd teach next week.
+**Done — go to my lessons** → click the lesson you'd teach next week.
 
 You'll see an **empty grid**. Look at the column headings before you spend anything.
 
@@ -145,11 +145,11 @@ You'll see an **empty grid**. Look at the column headings before you spend anyth
 
 ### ⬜ Generate
 
-Click **Generate Emerging**.
+Click **Write the Emerging grid**.
 
 Wait 20–60 seconds. That's Claude writing the whole grid.
 
-Then click the **Expanding** and **Bridging** tabs → generate those too.
+Then click the **Expanding** and **Bridging** tabs → write those too.
 
 ### ⬜ Edit something
 
@@ -157,7 +157,7 @@ Hover a cell → **Edit** → change the words → **Save**
 
 It gets an **"edited"** badge.
 
-Now click **Regenerate**.
+Now click **Write Emerging again**.
 
 > ✅ Your edit should survive untouched. Everything else refreshes.
 >
@@ -165,7 +165,7 @@ Now click **Regenerate**.
 
 ### ⬜ Print
 
-**Print view** → **Print / save as PDF** → pick **Landscape**
+**Print this** → **Print / save as PDF** → pick **Landscape**
 
 One page per level.
 
@@ -185,14 +185,14 @@ Handouts, page numbers, texts that **aren't in your Teacher Edition**.
 ### 2. Do the 3 levels actually feel different?
 Emerging should have more support than Bridging. Same text, same thinking — different scaffolding.
 
-> 💡 **All three read the same?** You can fix that yourself. Go to **Proficiency levels** and write a more specific description of each band. That description is exactly what Claude reads to decide how much support to give. Vague in → vague out.
+> 💡 **All three read the same?** You can fix that yourself. Go to **Language levels** and write a more specific description of each band. That description is exactly what Claude reads to decide how much support to give. Vague in → vague out.
 
 ### 3. Are the columns right?
 Right now: *Minutes · Teacher says & does · Students do · Materials · Language objective · Check for understanding*
 
-Wrong ones? Missing one? Go to **Grid layout** → add / remove / rename → regenerate.
+Wrong ones? Missing one? Go to **My grid** → add / remove / rename → write it again.
 
-No code needed. Each column has a **"Hint for Claude"** box — that's the steering wheel.
+No code needed. Each column has a **"What goes in this square?"** box — that's the steering wheel.
 
 ### 4. Could a sub teach from it?
 That was the whole point. If not — what's missing?
@@ -209,7 +209,7 @@ That was the whole point. If not — what's missing?
 | `No grid template found` | You skipped the seed. Run `npm run db:seed` |
 | `ANTHROPIC_API_KEY is not configured` | Key line in `.env` is empty. Fill it → `Ctrl+C` → `npm run dev` again. |
 | A billing / credit error | Add credit at console.anthropic.com → Billing |
-| `Monthly generation limit reached` | **Usage** in top bar → clear your cap box → **Set** |
+| "used up this month's allowance" | **Spending** in top bar → clear the allowance box → **Set** |
 | "larger than the 25 MB limit" | Change `MAX_UPLOAD_MB` in `.env` → restart |
 | `Port 3000 already in use` | `npm run dev -- -p 3001` → use localhost:3001 |
 

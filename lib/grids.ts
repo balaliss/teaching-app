@@ -19,7 +19,10 @@ export async function resolveTemplate(userId: string) {
     where: { ownerId: null, isDefault: true },
   })
   if (!shared) {
-    throw new Error('No grid template found. Run `npm run db:seed` to create the default.')
+    throw new Error(
+      'This site is missing its starting grid layout, so nothing can be written yet. ' +
+        'Whoever installed it needs to run the setup step (npm run db:seed).',
+    )
   }
   return shared
 }
@@ -38,12 +41,12 @@ export async function generateGridForLesson(input: {
       module: { include: { curriculum: true } },
     },
   })
-  if (!lesson) throw new Error('Lesson not found.')
+  if (!lesson) throw new Error('We could not find that lesson.')
 
   const level = await prisma.proficiencyLevel.findFirst({
     where: { id: input.levelId, curriculumId: lesson.module.curriculumId },
   })
-  if (!level) throw new Error('Proficiency level not found.')
+  if (!level) throw new Error('We could not find that language level.')
 
   const siblings = await prisma.proficiencyLevel.findMany({
     where: { curriculumId: lesson.module.curriculumId, NOT: { id: level.id } },

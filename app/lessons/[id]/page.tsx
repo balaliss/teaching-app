@@ -42,8 +42,8 @@ export default async function LessonPage({ params }: { params: Promise<{ id: str
           .filter(Boolean)
           .join(' · ')}
       >
-        <LinkButton href={`/lessons/${lesson.id}/print`}>Print view</LinkButton>
-        <LinkButton href={`/curricula/${lesson.module.curriculumId}`}>Back to lessons</LinkButton>
+        <LinkButton href={`/lessons/${lesson.id}/print`}>Print this</LinkButton>
+        <LinkButton href={`/curricula/${lesson.module.curriculumId}`}>Back to my lessons</LinkButton>
       </PageHeading>
 
       {lesson.module.focusingQuestion ? (
@@ -55,14 +55,14 @@ export default async function LessonPage({ params }: { params: Promise<{ id: str
 
       {levels.length === 0 ? (
         <Alert>
-          This curriculum has no proficiency levels.{' '}
+          You haven&apos;t set any language levels for this curriculum yet.{' '}
           <Link
             href={`/settings/levels?curriculum=${lesson.module.curriculumId}`}
             className="underline"
           >
-            Add them
+            Set them up
           </Link>{' '}
-          before generating a grid.
+          first — each level gets its own version of the grid.
         </Alert>
       ) : (
         <GridWorkspace
@@ -94,20 +94,21 @@ export default async function LessonPage({ params }: { params: Promise<{ id: str
 
       <details className="rounded border border-neutral-300 bg-white p-4 text-sm">
         <summary className="cursor-pointer font-medium">
-          Teacher Edition text used for this lesson ({lesson.sections.length} phase
+          What the Teacher Edition says for this lesson ({lesson.sections.length} part
           {lesson.sections.length === 1 ? '' : 's'})
         </summary>
         <div className="mt-3 space-y-3">
           {lesson.sections.length === 0 ? (
             <p className="text-neutral-600">
-              No source text captured. Add it on the{' '}
+              We didn&apos;t pick up any text for this lesson, so there&apos;s nothing for Claude to
+              work from. Add it on the{' '}
               <Link
                 href={`/curricula/${lesson.module.curriculumId}/review`}
                 className="text-accent underline"
               >
-                structure page
-              </Link>{' '}
-              so generation has something to work from.
+                lessons page
+              </Link>
+              .
             </p>
           ) : (
             lesson.sections.map((section) => (

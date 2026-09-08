@@ -35,10 +35,10 @@ export function InviteForm() {
 
   return (
     <form onSubmit={onSubmit} className="space-y-4">
-      <h2 className="font-medium">Issue an invite</h2>
+      <h2 className="font-medium">Make an invite link</h2>
       {error ? <Alert>{error}</Alert> : null}
       <div className="grid gap-4 sm:grid-cols-3">
-        <Field label="Email" hint="optional">
+        <Field label="Their email" hint="optional — locks the link to that address">
           <input name="email" type="email" className={inputClass} placeholder="teacher@school.org" />
         </Field>
         <Field label="Role">
@@ -47,16 +47,16 @@ export function InviteForm() {
             <option value="ADMIN">Admin</option>
           </select>
         </Field>
-        <Field label="Valid for (days)">
+        <Field label="Good for (days)">
           <input name="days" type="number" min={1} max={90} defaultValue={14} className={inputClass} />
         </Field>
       </div>
       <Button type="submit" disabled={pending}>
-        {pending ? 'Creating…' : 'Create invite'}
+        {pending ? 'Making it…' : 'Create invite'}
       </Button>
       {link ? (
         <Alert kind="success">
-          Send this link to the teacher:
+          Send this link to them:
           <br />
           <code className="break-all font-mono text-xs">{link}</code>
         </Alert>

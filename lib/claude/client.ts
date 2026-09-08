@@ -6,7 +6,8 @@ let cached: Anthropic | null = null
 export class MissingApiKeyError extends Error {
   constructor() {
     super(
-      'ANTHROPIC_API_KEY is not configured on the server, so instructions cannot be generated.',
+      'Claude has not been set up on this site yet, so nothing can be written. Whoever installed ' +
+        'this needs to add an ANTHROPIC_API_KEY.',
     )
     this.name = 'MissingApiKeyError'
   }

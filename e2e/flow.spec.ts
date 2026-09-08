@@ -22,7 +22,7 @@ async function signIn(page: Page, email: string, password: string) {
   await page.getByLabel('Email').fill(email)
   await page.getByLabel('Password').fill(password)
   await page.getByRole('button', { name: 'Sign in' }).click()
-  await expect(page.getByRole('link', { name: 'Curricula', exact: true })).toBeVisible()
+  await expect(page.getByRole('link', { name: 'My curriculum', exact: true })).toBeVisible()
 }
 
 async function signOut(page: Page) {
@@ -41,21 +41,21 @@ test('teacher path: upload, confirm structure, change layout, print', async ({ p
   const title = unique('E2E Module')
 
   await page.goto('/curricula')
-  await page.getByLabel('Title').fill(title)
-  await page.getByLabel('Grade band').fill('Grade 3')
+  await page.getByLabel('Name it').fill(title)
+  await page.getByLabel('Grade').fill('Grade 3')
   await page
-    .getByLabel('File')
+    .getByLabel('Your Teacher Edition')
     .setInputFiles({
       name: 'teacher-edition.pdf',
       mimeType: 'application/pdf',
       buffer: makeTextPdf(SAMPLE_TEACHER_EDITION),
     })
-  await page.getByRole('button', { name: 'Upload and parse' }).click()
+  await page.getByRole('button', { name: 'Upload it' }).click()
 
   // The parser should land us on the review page with the structure it found.
   await expect(page).toHaveURL(/\/curricula\/[^/]+\/review$/)
   await expect(page.getByLabel('Module title')).toHaveValue('A Great Heart')
-  await expect(page.getByText(/2 lesson\(s\)/)).toBeVisible()
+  await expect(page.getByText(/2 lessons found/)).toBeVisible()
 
   const curriculumId = page.url().split('/curricula/')[1].split('/')[0]
 
@@ -63,8 +63,8 @@ test('teacher path: upload, confirm structure, change layout, print', async ({ p
   const lesson = page.getByRole('group').first()
   await lesson.click()
   await lesson.getByLabel('Lesson title').fill('Lesson 1 — the heart as a pump')
-  await page.getByRole('button', { name: 'Save structure' }).click()
-  await expect(page.getByText('Structure saved')).toBeVisible()
+  await page.getByRole('button', { name: 'Save', exact: true }).click()
+  await expect(page.getByText('Saved. You can start making grids now.')).toBeVisible()
 
   await page.reload()
   await expect(page.getByLabel('Lesson title').first()).toHaveValue(
@@ -77,12 +77,12 @@ test('teacher path: upload, confirm structure, change layout, print', async ({ p
   const columnsCard = page.getByTestId('axis-columns')
   await columnsCard.getByRole('button', { name: 'Add column' }).click()
   await columnsCard.getByLabel('Label').last().fill(newColumnLabel)
-  await page.getByRole('button', { name: 'Save layout' }).click()
-  await expect(page.getByText('Layout saved')).toBeVisible()
+  await page.getByRole('button', { name: 'Save', exact: true }).click()
+  await expect(page.getByText('Saved. Grids you already made')).toBeVisible()
 
   await page.goto(`/curricula/${curriculumId}`)
   await page.getByRole('link', { name: /the heart as a pump/ }).click()
-  await expect(page.getByRole('button', { name: /^Generate/ }).first()).toBeVisible()
+  await expect(page.getByRole('button', { name: /^Write the/ }).first()).toBeVisible()
   await expect(page.getByRole('columnheader', { name: newColumnLabel })).toBeVisible()
 
   // Levels are tabs; the seeded CA ELD bands should all be offered.
@@ -92,8 +92,8 @@ test('teacher path: upload, confirm structure, change layout, print', async ({ p
   }
 
   if (process.env.ANTHROPIC_API_KEY) {
-    await page.getByRole('button', { name: /^Generate Emerging/ }).click()
-    await expect(page.getByText(/^Generated /)).toBeVisible({ timeout: 180_000 })
+    await page.getByRole('button', { name: /^Write the Emerging grid/ }).click()
+    await expect(page.getByText(/^Written /)).toBeVisible({ timeout: 180_000 })
 
     // A teacher edit must be marked and must survive a regeneration.
     const firstCell = page.locator('tbody tr').first().locator('td').first()
@@ -103,8 +103,8 @@ test('teacher path: upload, confirm structure, change layout, print', async ({ p
     await page.getByRole('button', { name: 'Save' }).click()
     await expect(page.getByText('Teacher-authored: greet at the door.')).toBeVisible()
 
-    await page.getByRole('button', { name: /^Regenerate/ }).click()
-    await expect(page.getByText(/^Generated /)).toBeVisible({ timeout: 180_000 })
+    await page.getByRole('button', { name: /again$/ }).click()
+    await expect(page.getByText(/^Written /)).toBeVisible({ timeout: 180_000 })
     await expect(page.getByText('Teacher-authored: greet at the door.')).toBeVisible()
   }
 
@@ -122,20 +122,20 @@ test('a second teacher cannot see the first teacher\'s curricula', async ({ page
   // tests run in parallel and against a fresh database in CI, so depending on
   // another test's data is a race.
   await page.goto('/curricula')
-  await page.getByLabel('Title').fill(unique('Isolation Fixture'))
-  await page.getByLabel('File').setInputFiles({
+  await page.getByLabel('Name it').fill(unique('Isolation Fixture'))
+  await page.getByLabel('Your Teacher Edition').setInputFiles({
     name: 'teacher-edition.pdf',
     mimeType: 'application/pdf',
     buffer: makeTextPdf(SAMPLE_TEACHER_EDITION),
   })
-  await page.getByRole('button', { name: 'Upload and parse' }).click()
+  await page.getByRole('button', { name: 'Upload it' }).click()
   await expect(page).toHaveURL(/\/curricula\/[^/]+\/review$/)
   const href = `/curricula/${page.url().split('/curricula/')[1].split('/')[0]}`
 
   // Issue an invite and redeem it as a new teacher.
   await page.goto('/admin/invites')
   const teacherEmail = `${unique('teacher')}@example.org`
-  await page.getByLabel('Email').fill(teacherEmail)
+  await page.getByLabel('Their email').fill(teacherEmail)
   await page.getByRole('button', { name: 'Create invite' }).click()
   const link = await page.locator('code').first().innerText()
   const code = new URL(link).searchParams.get('code')
@@ -144,11 +144,11 @@ test('a second teacher cannot see the first teacher\'s curricula', async ({ page
   await signOut(page)
 
   await page.goto(`/register?code=${code}`)
-  await page.getByLabel('Name').fill('Second Teacher')
+  await page.getByLabel('Your name').fill('Second Teacher')
   await page.getByLabel('Email').fill(teacherEmail)
-  await page.getByLabel('Password').fill(TEACHER_PASSWORD)
+  await page.getByLabel('Pick a password').fill(TEACHER_PASSWORD)
   await page.getByRole('button', { name: 'Create account' }).click()
-  await expect(page.getByRole('link', { name: 'Curricula', exact: true })).toBeVisible()
+  await expect(page.getByRole('link', { name: 'My curriculum', exact: true })).toBeVisible()
 
   // The admin's curriculum must be invisible, and admin pages out of reach.
   await page.goto(href)

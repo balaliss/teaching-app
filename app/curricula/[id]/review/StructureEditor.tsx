@@ -14,7 +14,7 @@ const PHASES: Section['phase'][] = ['WELCOME', 'LAUNCH', 'LEARN', 'LAND', 'WRAP'
 const emptySection = (): Section => ({
   id: null,
   phase: 'LEARN',
-  heading: 'New phase',
+  heading: 'New part',
   rawText: '',
   deleted: false,
 })
@@ -102,7 +102,7 @@ export function StructureEditor({
       setMessage({ kind: 'error', text: result.error })
       return
     }
-    setMessage({ kind: 'success', text: 'Structure saved. You can generate grids now.' })
+    setMessage({ kind: 'success', text: 'Saved. You can start making grids now.' })
     setModules((current) =>
       current
         .filter((module) => !module.deleted)
@@ -122,7 +122,7 @@ export function StructureEditor({
   async function onReparse() {
     if (
       !window.confirm(
-        'Re-parsing replaces the structure below with a fresh read of the uploaded file. Any corrections you made here will be lost. Continue?',
+        'This throws away everything below and reads your PDF again from scratch. Any fixes you made here will be lost. Carry on?',
       )
     ) {
       return
@@ -144,21 +144,21 @@ export function StructureEditor({
     <div className="space-y-5">
       <div className="no-print flex flex-wrap items-center gap-3">
         <Button onClick={onSave} disabled={pending !== null}>
-          {pending === 'save' ? 'Saving…' : 'Save structure'}
+          {pending === 'save' ? 'Saving…' : 'Save'}
         </Button>
         <Button variant="secondary" onClick={onReparse} disabled={pending !== null}>
-          {pending === 'reparse' ? 'Re-parsing…' : 'Re-parse the file'}
+          {pending === 'reparse' ? 'Reading it again…' : 'Read the PDF again'}
         </Button>
         <Button variant="secondary" onClick={() => setModules((c) => [...c, emptyModule()])}>
           Add module
         </Button>
         <span className="text-xs text-neutral-500">
-          {visibleModules.length} module(s) ·{' '}
+          {visibleModules.length} module{visibleModules.length === 1 ? '' : 's'} ·{' '}
           {visibleModules.reduce(
             (sum, m) => sum + m.lessons.filter((l) => !l.deleted).length,
             0,
           )}{' '}
-          lesson(s) · status {parseStatus}
+          lessons found
         </span>
       </div>
 
@@ -167,7 +167,8 @@ export function StructureEditor({
 
       {visibleModules.length === 0 ? (
         <Alert kind="info">
-          Nothing here yet. Use “Add module” to build the structure by hand, or re-parse the file.
+          Nothing here yet. Either type your modules and lessons in yourself with “Add module”, or
+          have another go at reading the PDF.
         </Alert>
       ) : null}
 
@@ -207,7 +208,7 @@ export function StructureEditor({
                 />
               </label>
               <Button variant="danger" onClick={() => patchModule(mi, { deleted: true })}>
-                Remove module
+                Delete module
               </Button>
             </div>
 
@@ -223,7 +224,8 @@ export function StructureEditor({
                       {lesson.number ? `Lesson ${lesson.number}: ` : ''}
                       {lesson.title}
                       <span className="ml-2 text-xs font-normal text-neutral-500">
-                        {lesson.sections.filter((s) => !s.deleted).length} phase(s)
+                        {lesson.sections.filter((s) => !s.deleted).length} part
+                        {lesson.sections.filter((s) => !s.deleted).length === 1 ? '' : 's'}
                       </span>
                     </summary>
 
@@ -264,7 +266,7 @@ export function StructureEditor({
                         variant="danger"
                         onClick={() => patchLesson(mi, li, { deleted: true })}
                       >
-                        Remove lesson
+                        Delete lesson
                       </Button>
                     </div>
 
@@ -277,7 +279,7 @@ export function StructureEditor({
                           >
                             <div className="flex flex-wrap items-end gap-3">
                               <label className="text-sm">
-                                <span className="font-medium">Phase</span>
+                                <span className="font-medium">Part of the lesson</span>
                                 <select
                                   value={section.phase}
                                   onChange={(e) =>
@@ -312,7 +314,7 @@ export function StructureEditor({
                               </Button>
                             </div>
                             <label className="mt-2 block text-sm">
-                              <span className="font-medium">Teacher Edition text</span>
+                              <span className="font-medium">What the Teacher Edition says</span>
                               <textarea
                                 value={section.rawText}
                                 rows={4}
@@ -333,7 +335,7 @@ export function StructureEditor({
                           })
                         }
                       >
-                        Add phase
+                        Add a part
                       </Button>
                     </div>
                   </details>

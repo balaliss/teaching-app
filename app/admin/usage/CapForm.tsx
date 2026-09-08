@@ -23,7 +23,7 @@ export function CapForm({ userId, cap }: { userId: string; cap: number | null })
       <input
         value={value}
         onChange={(event) => setValue(event.target.value)}
-        placeholder="unlimited"
+        placeholder="no limit"
         inputMode="numeric"
         className={`${inputClass} w-28`}
       />

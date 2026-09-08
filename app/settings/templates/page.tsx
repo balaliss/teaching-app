@@ -15,14 +15,15 @@ export default async function TemplatesPage() {
   return (
     <div className="space-y-6">
       <PageHeading
-        title="Grid layout"
-        subtitle="The rows and columns of your instruction grid. Change them here and the next grid you generate uses the new shape — no code change needed."
+        title="My grid"
+        subtitle="This is what your printed grid looks like: the rows down the side, the columns across the top. Change anything here and the next grid you make uses the new shape."
       />
 
       <Alert kind="info">
-        Rows are usually the lesson phases; columns are what you want spelled out for each phase.
-        The <strong>hint</strong> on each row and column is passed to Claude, so it is the most
-        direct way to control what lands in a cell.
+        Rows are the parts of the lesson. Columns are what you want spelled out for each part.
+        <br />
+        The <strong>hint</strong> box on each one is what Claude reads to decide what goes in that
+        square — so if a column keeps coming out wrong, change its hint.
       </Alert>
 
       <TemplateEditor

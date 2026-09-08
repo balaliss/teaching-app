@@ -42,6 +42,6 @@ describe('PDF extraction into the parser', () => {
   it('refuses an unsupported file', async () => {
     await expect(
       extractDocument(Buffer.from('not a document'), 'image/png', 'scan.png'),
-    ).rejects.toThrow(/Unsupported file type/)
+    ).rejects.toThrow(/file type will not work/)
   })
 })

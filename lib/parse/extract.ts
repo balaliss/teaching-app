@@ -36,7 +36,7 @@ export async function extractDocument(
 ): Promise<ExtractedDocument> {
   const kind = kindFor(mimeType, fileName)
   if (!kind) {
-    throw new Error('Unsupported file type. Upload a PDF, DOCX or XLSX.')
+    throw new Error('That file type will not work. Upload a PDF, a Word file, or an Excel file.')
   }
 
   if (kind === 'pdf') return extractPdf(buffer)

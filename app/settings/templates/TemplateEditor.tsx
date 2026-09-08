@@ -108,13 +108,13 @@ export function TemplateEditor({
     }
     setMessage({
       kind: 'success',
-      text: 'Layout saved. Existing grids keep the cells they have; regenerate a lesson to fill any new rows or columns.',
+      text: 'Saved. Grids you already made stay as they are — write a lesson again to fill in anything new.',
     })
     router.refresh()
   }
 
   async function onReset() {
-    if (!window.confirm('Discard your layout and go back to the shared default?')) return
+    if (!window.confirm('Throw away your changes and go back to the standard grid?')) return
     setPending(true)
     await resetTemplateAction()
     setShape({ rows: DEFAULT_ROWS, columns: DEFAULT_COLUMNS })
@@ -128,7 +128,7 @@ export function TemplateEditor({
 
       <Card>
         <label className="block text-sm">
-          <span className="font-medium">Layout name</span>
+          <span className="font-medium">Name</span>
           <input
             value={name}
             onChange={(event) => setName(event.target.value)}
@@ -137,15 +137,16 @@ export function TemplateEditor({
         </label>
         {usingShared ? (
           <p className="mt-2 text-xs text-neutral-500">
-            You are currently using the shared default. Saving creates your own copy.
+            You&apos;re using the standard grid everyone starts with. Saving makes your own copy —
+            it won&apos;t change anyone else&apos;s.
           </p>
         ) : null}
       </Card>
 
       <AxisEditor
         testId="axis-rows"
-        title="Rows"
-        description="One row per lesson phase."
+        title="Rows (down the side)"
+        description="One row for each part of the lesson."
         items={shape.rows}
         onLabel={(index, label) => patchLabel('rows', index, label)}
         onPatch={(index, next) => patch('rows', index, next)}
@@ -156,8 +157,8 @@ export function TemplateEditor({
 
       <AxisEditor
         testId="axis-columns"
-        title="Columns"
-        description="One column per thing you want spelled out for every phase."
+        title="Columns (across the top)"
+        description="One column for each thing you want spelled out for every part of the lesson."
         items={shape.columns}
         onLabel={(index, label) => patchLabel('columns', index, label)}
         onPatch={(index, next) => patch('columns', index, next)}
@@ -168,11 +169,11 @@ export function TemplateEditor({
 
       <div className="flex flex-wrap gap-3">
         <Button onClick={onSave} disabled={pending}>
-          {pending ? 'Saving…' : 'Save layout'}
+          {pending ? 'Saving…' : 'Save'}
         </Button>
         {usingShared ? null : (
           <Button variant="secondary" onClick={onReset} disabled={pending}>
-            Reset to shared default
+            Back to the standard grid
           </Button>
         )}
       </div>
@@ -219,7 +220,7 @@ function AxisEditor({
                 />
               </label>
               <label className="text-sm">
-                <span className="font-medium">Key</span>
+                <span className="font-medium">ID</span>
                 <input
                   value={item.key}
                   onChange={(event) => onPatch(index, { key: event.target.value })}
@@ -239,13 +240,13 @@ function AxisEditor({
               </div>
             </div>
             <label className="mt-2 block text-sm">
-              <span className="font-medium">Hint for Claude</span>
+              <span className="font-medium">What goes in this square?</span>
               <textarea
                 value={item.hint ?? ''}
                 rows={2}
                 onChange={(event) => onPatch(index, { hint: event.target.value })}
                 className={`${inputClass} mt-1 text-xs`}
-                placeholder="What belongs in this cell, and how it should be written."
+                placeholder="Tell Claude what to put here, and how to write it."
               />
             </label>
           </div>

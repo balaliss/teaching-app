@@ -40,16 +40,16 @@ export function RegisterForm({ code }: { code?: string }) {
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       {error ? <Alert>{error}</Alert> : null}
-      <Field label="Invite code">
+      <Field label="Invite code" hint="from your invite link">
         <input name="code" required defaultValue={code} className={inputClass} />
       </Field>
-      <Field label="Name">
+      <Field label="Your name">
         <input name="name" required autoComplete="name" className={inputClass} />
       </Field>
       <Field label="Email">
         <input name="email" type="email" required autoComplete="email" className={inputClass} />
       </Field>
-      <Field label="Password" hint="At least 10 characters">
+      <Field label="Pick a password" hint="at least 10 characters">
         <input
           name="password"
           type="password"
@@ -60,7 +60,7 @@ export function RegisterForm({ code }: { code?: string }) {
         />
       </Field>
       <Button type="submit" disabled={pending}>
-        {pending ? 'Creating…' : 'Create account'}
+        {pending ? 'Setting up…' : 'Create account'}
       </Button>
     </form>
   )

@@ -24,7 +24,7 @@ export function LoginForm({ next }: { next?: string }) {
 
     setPending(false)
     if (result?.error) {
-      setError('That email and password combination did not work.')
+      setError("That email and password didn't work. Check for typos, or ask for a new invite.")
       return
     }
     router.push(next && next.startsWith('/') ? next : '/')

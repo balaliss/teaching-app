@@ -15,8 +15,8 @@ export default async function InvitesPage() {
   return (
     <div className="space-y-6">
       <PageHeading
-        title="Invites"
-        subtitle="Accounts are invite-only. Issue a code, then send the teacher the link."
+        title="Invite teachers"
+        subtitle="Nobody can sign up on their own. Make a link here and send it to the teacher — they use it once to make their account."
       />
 
       <Card>
@@ -24,9 +24,9 @@ export default async function InvitesPage() {
       </Card>
 
       <Card>
-        <h2 className="mb-3 font-medium">Recent invites</h2>
+        <h2 className="mb-3 font-medium">Invites you&apos;ve sent</h2>
         {invites.length === 0 ? (
-          <p className="text-sm text-neutral-600">No invites issued yet.</p>
+          <p className="text-sm text-neutral-600">You haven&apos;t invited anyone yet.</p>
         ) : (
           <table className="w-full text-sm">
             <thead className="text-left text-neutral-500">
@@ -34,7 +34,7 @@ export default async function InvitesPage() {
                 <th className="py-1">Code</th>
                 <th className="py-1">For</th>
                 <th className="py-1">Role</th>
-                <th className="py-1">Expires</th>
+                <th className="py-1">Good until</th>
                 <th className="py-1">Status</th>
               </tr>
             </thead>
@@ -47,10 +47,10 @@ export default async function InvitesPage() {
                   <td className="py-1">{invite.expiresAt.toISOString().slice(0, 10)}</td>
                   <td className="py-1">
                     {invite.usedAt
-                      ? `used by ${invite.usedByUser?.email ?? 'deleted user'}`
+                      ? `signed up: ${invite.usedByUser?.email ?? 'account deleted'}`
                       : invite.expiresAt < new Date()
                         ? 'expired'
-                        : 'open'}
+                        : 'not used yet'}
                   </td>
                 </tr>
               ))}

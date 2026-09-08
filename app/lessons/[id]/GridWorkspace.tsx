@@ -127,10 +127,9 @@ export function GridWorkspace({
       {error ? <Alert>{error}</Alert> : null}
       {quotaExceeded ? (
         <Alert>
-          You have used your monthly generation limit (
-          {quota.used.toLocaleString()} of {quota.cap?.toLocaleString()}{" "}
-          tokens). Existing grids still print; ask an admin to raise the limit
-          to generate more.
+          You&apos;ve used up this month&apos;s allowance. Grids you already made still
+          work and still print — you just can&apos;t write new ones until someone
+          raises your limit, or next month starts.
         </Alert>
       ) : null}
 
@@ -140,22 +139,22 @@ export function GridWorkspace({
           disabled={generating !== null || quotaExceeded || !activeLevel}
         >
           {generating === activeLevel?.id
-            ? "Generating…"
+            ? "Writing it…"
             : grid?.status === "READY"
-              ? `Regenerate ${activeLevel?.name}`
-              : `Generate ${activeLevel?.name}`}
+              ? `Write ${activeLevel?.name} again`
+              : `Write the ${activeLevel?.name} grid`}
         </Button>
         <Button
           variant="secondary"
           onClick={onGenerateAll}
           disabled={generating !== null || quotaExceeded}
         >
-          Generate all {levels.length} levels
+          Write all {levels.length} levels
         </Button>
         <span className="text-xs text-neutral-500">
-          Layout: {templateName} ·{" "}
+          Using: {templateName} ·{" "}
           <Link href="/settings/templates" className="underline">
-            change rows and columns
+            change the columns
           </Link>
         </span>
       </div>
@@ -165,13 +164,13 @@ export function GridWorkspace({
       ) : null}
 
       {grid?.status === "FAILED" ? (
-        <Alert>{grid.error ?? "Generation failed."}</Alert>
+        <Alert>{grid.error ?? "That didn't work. Have another go."}</Alert>
       ) : null}
 
       {!grid || grid.cells.length === 0 ? (
         <p className="rounded border border-dashed border-neutral-400 bg-white px-3 py-2 text-sm text-neutral-600">
-          No grid for {activeLevel?.name} yet — this is the empty layout.
-          Generate above to fill it.
+          Nothing written for {activeLevel?.name} yet — these are just the empty
+          columns. Use the button above to fill them in.
         </p>
       ) : null}
 
@@ -221,9 +220,9 @@ export function GridWorkspace({
 
       {grid?.generatedAt ? (
         <p className="no-print text-xs text-neutral-500">
-          Generated {new Date(grid.generatedAt).toLocaleString()}
-          {grid.model ? ` · ${grid.model}` : ""} · cells you edit are marked and
-          are kept when you regenerate.
+          Written {new Date(grid.generatedAt).toLocaleString()}
+          {grid.model ? ` · ${grid.model}` : ""} · anything you type yourself is
+          marked, and is kept if you write the grid again.
         </p>
       ) : null}
     </div>
@@ -337,7 +336,7 @@ function EditableCell({
             onClick={revert}
             className="text-[11px] text-neutral-500 underline"
           >
-            Let Claude rewrite
+            Let Claude redo it
           </button>
         ) : null}
       </div>

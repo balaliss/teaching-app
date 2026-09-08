@@ -5,11 +5,11 @@ import { Card, EmptyState, PageHeading } from '@/components/ui'
 import { UploadForm } from '@/app/curricula/UploadForm'
 
 const STATUS_LABEL: Record<string, string> = {
-  PENDING: 'Queued',
-  PARSING: 'Reading the document…',
-  NEEDS_REVIEW: 'Check the parsed structure',
-  READY: 'Ready',
-  FAILED: 'Could not be read',
+  PENDING: 'Waiting',
+  PARSING: 'Reading it now…',
+  NEEDS_REVIEW: 'Needs your check',
+  READY: 'Ready to use',
+  FAILED: "Couldn't read it",
 }
 
 export default async function CurriculaPage() {
@@ -32,8 +32,8 @@ export default async function CurriculaPage() {
   return (
     <div className="space-y-6">
       <PageHeading
-        title="Curricula"
-        subtitle="Upload a Wit & Wisdom ELD Teacher Edition once per module. Files stay private to your account."
+        title="My curriculum"
+        subtitle="Add your Wit &amp; Wisdom ELD Teacher Edition here — one per module. Only you can see what you upload."
       />
 
       <Card>
@@ -42,16 +42,16 @@ export default async function CurriculaPage() {
 
       {curricula.length === 0 ? (
         <EmptyState
-          title="No curricula yet"
-          body="Upload a Teacher Edition PDF above. The app pulls out the modules, lessons and lesson phases, then you confirm the structure before generating grids."
+          title="Nothing here yet"
+          body="Add your Teacher Edition PDF above. We\u2019ll pull out the modules and lessons, show you what we found so you can fix anything we got wrong, and then you can start making lesson grids."
         />
       ) : (
         <Card>
           <table className="w-full text-sm">
             <thead className="text-left text-neutral-500">
               <tr>
-                <th className="py-1">Title</th>
-                <th className="py-1">Grade band</th>
+                <th className="py-1">Name</th>
+                <th className="py-1">Grade</th>
                 <th className="py-1">Modules</th>
                 <th className="py-1">Status</th>
               </tr>

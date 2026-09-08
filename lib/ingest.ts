@@ -23,11 +23,11 @@ export async function createCurriculum(input: {
   bytes: Buffer
 }): Promise<string> {
   if (!kindFor(input.mimeType, input.fileName)) {
-    throw new Error('Unsupported file type. Upload a PDF, DOCX or XLSX.')
+    throw new Error('That file type will not work. Upload a PDF, a Word file, or an Excel file.')
   }
   if (input.bytes.byteLength > env.maxUploadBytes) {
     throw new Error(
-      `That file is larger than the ${Math.round(env.maxUploadBytes / 1024 / 1024)} MB limit.`,
+      `That file is bigger than the ${Math.round(env.maxUploadBytes / 1024 / 1024)} MB limit, so it can't be uploaded.`,
     )
   }
 
