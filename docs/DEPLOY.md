@@ -150,3 +150,10 @@ instead of deploying.
 Push to the production branch; Vercel rebuilds and reruns `prisma migrate deploy`. Re-running
 `npm run db:seed` is safe — it upserts the admin and refreshes the default layout without
 touching curricula or grids.
+
+It does not reset the admin's password: on an account that already exists the seed updates
+only the role, so `SEED_ADMIN_PASSWORD` has no effect after the first run. There is no
+password-change screen in the app either — a password is set once, when the seed creates the
+admin or when a teacher redeems an invite. To change one you either issue a fresh invite and
+register again, or update that user's `passwordHash` in the database yourself. Get
+`SEED_ADMIN_PASSWORD` right the first time.

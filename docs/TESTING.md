@@ -109,6 +109,11 @@ npm run db:seed
 > ✅ **Look for this line:** `Admin account ready: your@email.com`
 >
 > 🛑 **Don't see it?** Your `.env` email/password lines are empty. Go back to step 4️⃣.
+>
+> ⚠️ **Get step 4️⃣ right before you run this.** The password is set from `.env` the
+> first time the account is created and never again. Changing `SEED_ADMIN_PASSWORD`
+> later and re-seeding does **not** update it — you would still log in with the old
+> one. Starting over means wiping the database (see [Something broke](#something-broke)).
 
 ### 6️⃣ Run it
 
@@ -220,13 +225,48 @@ That was the whole point. If not — what's missing?
 |---|---|
 | `docker: command not found` | Docker isn't running. Open Docker Desktop, wait for the whale to settle. |
 | `Can't reach database server` | `docker compose up -d db` → wait 10 sec → try again |
-| "That email and password didn't work" | Re-run `npm run db:seed`. Check your `.env` email/password. |
+| "That email and password didn't work" | Check `grep SEED_ADMIN .env`, then see **Login won't work** below. Re-seeding alone will not fix it. |
 | "missing its starting grid" | You skipped the seed. Run `npm run db:seed` |
 | "Claude is not set up on this site yet" | `ANTHROPIC_API_KEY` in `.env` is empty. Fill it → `Ctrl+C` → `npm run dev` again. |
 | A billing / credit error | Add credit at console.anthropic.com → Billing |
 | "used up this month's allowance" | **Spending** in top bar → clear the allowance box → **Set** |
 | "bigger than the 25 MB limit" | Change `MAX_UPLOAD_MB` in `.env` → restart |
 | `Port 3000 already in use` | `npm run dev -- -p 3001` → use localhost:3001 |
+
+### Login won't work
+
+Re-running `npm run db:seed` will **not** fix a wrong password. The seed sets the
+password only when it creates the account; on an account that already exists it updates
+nothing but the role. So the password is whatever was in `SEED_ADMIN_PASSWORD` the
+*first* time you seeded, no matter what `.env` says now.
+
+See what actually exists:
+
+```bash
+docker compose exec db psql -U teaching -d teaching_app -c 'select email, role from "User";'
+```
+
+- **No rows, or `relation "User" does not exist`** → the seed never ran here, or ran
+  before you filled in `.env`. Fix step 4️⃣, then `npm run db:migrate` and
+  `npm run db:seed`.
+- **`you@example.org`** → you seeded before editing `.env`. The password is the
+  placeholder from `.env.example`: `change-this-after-first-login`.
+- **Your own email** → the account is right and the password is the one you first
+  seeded with.
+
+To start clean — this deletes the database, so uploads and grids on this machine go
+with it:
+
+```bash
+docker compose down -v
+docker compose up -d db
+npm run db:migrate
+npm run db:seed
+```
+
+> 💡 Each machine has its own database and its own accounts. A fresh clone on a second
+> laptop has no login until you seed it there. See
+> [YOUR-MACHINE.md](YOUR-MACHINE.md).
 
 **Anything else:** copy the red text from the terminal and send it to me.
 
