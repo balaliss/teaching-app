@@ -65,7 +65,8 @@ and leave `S3_ENDPOINT` blank — the driver switches to virtual-host addressing
 | `S3_SECRET_ACCESS_KEY` | from step 2 |
 | `S3_REGION` | leave blank for R2, or the bucket's region for AWS |
 | `DEFAULT_MONTHLY_TOKEN_CAP` | e.g. `2000000` |
-| `CLAUDE_GRID_MODEL` | see the timeout note below |
+| `CLAUDE_GRID_MODEL` | optional — defaults to `claude-opus-5`, which fits Vercel's limit |
+| `CLAUDE_STRUCTURE_MODEL` | optional — defaults to `claude-sonnet-5`, the upload-parsing fallback |
 
 Do **not** set `AUTH_URL` — Auth.js reads Vercel's own URL, so preview deployments work too.
 
@@ -92,8 +93,8 @@ npm run db:seed
 Use the **direct** string here, not the pooled one. Then open your Vercel URL, sign in with
 that email and password, and issue invites from `/admin/invites`.
 
-If you skip this step, sign-in fails (no accounts exist) and generation reports
-`No grid template found`.
+If you skip this step, sign-in fails (no accounts exist) and generation reports *"This
+site is missing its starting grid… needs to run the setup step (npm run db:seed)."*
 
 ---
 
@@ -120,13 +121,18 @@ Three ways out, cheapest first:
 function's limit. Vercel's Hobby plan allows **300 seconds**, which is comfortably more
 than an Opus call needs, so `claude-opus-5` is fine on the free plan. `vercel.json` and
 the route segment configs are set to 300. Pro allows up to 800s if you ever need it.
+(Those figures are the Fluid compute ones, which is the default for new projects. If you
+somehow have an old project without it, check Settings → Functions before trusting them.)
 
 A timeout surfaces as a failed grid with an error on the lesson page — nothing is
 corrupted, and you can just generate again.
 
-**Upload size, self-hosting.** `next.config.ts` allows 25 MB and `MAX_UPLOAD_MB` defaults
-to 25. A large Teacher Edition can exceed even that; raise both if uploads are rejected.
-(On Vercel the 4.5 MB platform cap bites first — see above.)
+**Upload size, self-hosting.** `MAX_UPLOAD_MB` (default 25) is the only setting that caps
+an upload. The file is posted to a route handler, `app/api/curricula/route.ts`, not to a
+server action, so the 25 MB `serverActions.bodySizeLimit` in `next.config.ts` does not apply
+to it — raising that value alone changes nothing. A large Teacher Edition can exceed 25 MB;
+raise `MAX_UPLOAD_MB` if uploads are rejected. (On Vercel the 4.5 MB platform cap bites
+first — see above.)
 
 **Vercel Hobby is non-commercial.** Fine for you and a few colleagues trying it out. If this
 becomes a district tool, that needs a Pro plan.
@@ -144,3 +150,10 @@ instead of deploying.
 Push to the production branch; Vercel rebuilds and reruns `prisma migrate deploy`. Re-running
 `npm run db:seed` is safe — it upserts the admin and refreshes the default layout without
 touching curricula or grids.
+
+It does not reset the admin's password: on an account that already exists the seed updates
+only the role, so `SEED_ADMIN_PASSWORD` has no effect after the first run. There is no
+password-change screen in the app either — a password is set once, when the seed creates the
+admin or when a teacher redeems an invite. To change one you either issue a fresh invite and
+register again, or update that user's `passwordHash` in the database yourself. Get
+`SEED_ADMIN_PASSWORD` right the first time.
