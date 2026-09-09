@@ -220,12 +220,12 @@ That was the whole point. If not — what's missing?
 |---|---|
 | `docker: command not found` | Docker isn't running. Open Docker Desktop, wait for the whale to settle. |
 | `Can't reach database server` | `docker compose up -d db` → wait 10 sec → try again |
-| Login says "did not work" | Re-run `npm run db:seed`. Check your `.env` email/password. |
-| `No grid template found` | You skipped the seed. Run `npm run db:seed` |
-| `ANTHROPIC_API_KEY is not configured` | Key line in `.env` is empty. Fill it → `Ctrl+C` → `npm run dev` again. |
+| "That email and password didn't work" | Re-run `npm run db:seed`. Check your `.env` email/password. |
+| "missing its starting grid" | You skipped the seed. Run `npm run db:seed` |
+| "Claude is not set up on this site yet" | `ANTHROPIC_API_KEY` in `.env` is empty. Fill it → `Ctrl+C` → `npm run dev` again. |
 | A billing / credit error | Add credit at console.anthropic.com → Billing |
 | "used up this month's allowance" | **Spending** in top bar → clear the allowance box → **Set** |
-| "larger than the 25 MB limit" | Change `MAX_UPLOAD_MB` in `.env` → restart |
+| "bigger than the 25 MB limit" | Change `MAX_UPLOAD_MB` in `.env` → restart |
 | `Port 3000 already in use` | `npm run dev -- -p 3001` → use localhost:3001 |
 
 **Anything else:** copy the red text from the terminal and send it to me.
